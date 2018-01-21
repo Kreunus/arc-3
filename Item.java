@@ -34,7 +34,10 @@ public class Item
         this.eatable = eatable;
         this.pickable = pickable;
     }
-
+    
+    public String getDetails() {
+        return name + "(" + weight + "): " + description;
+    }
     /**
      * @return name of an item.
      */
@@ -45,7 +48,7 @@ public class Item
     /**
      * @return description of an item.
      */
-    public String getItemDescription(){
+    public String getDescription(){
         return description;
     }
 

@@ -10,6 +10,7 @@ public enum CommandWord
     QUIT("quit"),
     LOOK("look"),
     SEARCH("search"),
+    BAG("bag"),
     EAT("eat"),
     TAKE("take"),
     DROP("drop"),

@@ -25,7 +25,7 @@ public class Game
 
     //saves the current room before going to the next (Thu Ky Vu Hoang)
     private Stack<Room> previousRooms;
-    
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -52,7 +52,7 @@ public class Game
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
-    
+
     /**
      * Create all the rooms and link their exits together.
      */
@@ -65,7 +65,7 @@ public class Game
         Room armory = new Room("armory", "arm", "in the armory.");
         Room meetingRoom = new Room("meeting room", "meet", "in the meeting room.");
         Room captainCell = new Room("Captain Cell", "cc", "in the room of the captain.");
-        
+
         Room aiCore = new Room("core room", "core", "in the artificial intelligence core room.");
         Room engineRoom1 = new Room("enginge room 1", "eng1", "in the engine room 1.");
         Room engineRoom2 = new Room("engine room 2", "eng2", "in the engine room 2.");
@@ -93,17 +93,20 @@ public class Game
         armory.newItem("Sword", "Meele weapon (low range)", 1000);
         armory.newItem("Armor", "Clothes that protects if equipped", 6000);
         armory.newItem("Gun", "Ranged weapon higher damage (need ammunition)",6000);
-        
-        laboratory.newItem("Magic Cookie", "Increases maximum weight", 200, true);
-        
-        livingRoom1.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
-        livingRoom2.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
-        livingRoom3.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
-        livingRoom4.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
-           
+
+        laboratory.newItem("Cookie", "Increases maximum weight", 50, true);
+        laboratory.newItem("Banana", "It's a banana. Bananas are cool!", 100, true);
+        laboratory.newItem("Tool", "A Tool", 100);
+        laboratory.newItem("Recycler", "A big Mashine for recycling stuff", 500000);
+
+        livingRoom1.newItem("Clothes", "Normal Clothes no effect", 2000);
+        livingRoom2.newItem("Clothes", "Normal Clothes no effect", 2000);
+        livingRoom3.newItem("Clothes", "Normal Clothes no effect", 2000);
+        livingRoom4.newItem("Clothes", "Normal Clothes no effect", 2000);
+
         livingRoom3.newNpc("Oprah", "Winfrey", "Hey " + player.getFirstName() + ", how are you?");
         captainCell.newNpc("Noah", "Windbreaker", "What are you doing in my office!");
-        
+
         //sets exits for rooms
         navigationRoom.setExit(computationRoom);
         computationRoom.setExit(navigationRoom);
@@ -187,12 +190,13 @@ public class Game
             System.out.println("I don't know what you mean...");
             return false;
         }
-        
+
         switch(parser.getCommandWord()) {
             case HELP: printHelp(); break;
             case GO: goRoom(); break;
             case LOOK: look(); break;
             case SEARCH: search(); break;
+            case BAG: bag(); break;
             case EAT: eat(); break;
             case ASK: ask(); break;
             case ALICE: alice(); break;
@@ -224,7 +228,7 @@ public class Game
     private void printLocation() {
         System.out.println("You are " + currentRoom.getDescription());
         System.out.println(currentRoom.getLongDescription());
-        
+
     }
 
     /** 
@@ -281,10 +285,10 @@ public class Game
             return;
         }
         else {
-            System.out.println("You cannot eat that ...");
+            player.eatItem(parser.getCommand().getSecondWord());
         }
     }
-    
+
     private void ask() {
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
@@ -295,7 +299,7 @@ public class Game
             System.out.println(currentRoom.getResponseFromCharacter(parser.getCommand().getSecondWord()));
         }
     }
-    
+
     private void alice() {
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
@@ -314,13 +318,18 @@ public class Game
             return;
         }
         else {
-            if(parser.getCommand().getSecondWord().equals("all"))
+            /*
+            if(parser.getCommand().getSecondWord().toLowerCase().equals("all"))
                 player.takeAllItems(currentRoom.getItems());
-            else
-            player.takeItem(currentRoom.getItem(parser.getCommand().getSecondWord()), currentRoom.getItems());
+            else */
+                player.takeItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
         }
     }
-
+    
+    private void bag() {
+        System.out.println(player.getDetails());
+    }
+    
     private void drop() {
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word...
@@ -334,8 +343,6 @@ public class Game
                 player.dropItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
         }
     }
-    
-    
 
     //goBack method (Thu Ky Vu Hoang)
     private void goBack(){

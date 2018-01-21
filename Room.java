@@ -91,7 +91,7 @@ public class Room
     public String getItemStrings(){
         String s = "Items:";
         for(Item item: items.values()){
-            s += "\n" + item.getName() + ": " + item.getItemDescription();
+            s += "\n" + item.getDetails();
         }
         return s;
     }
