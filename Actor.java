@@ -12,7 +12,7 @@ public class Actor
     private static int weight_max = 40000;
     
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private String surName;
+    private String firstName;
     private String lastName;
     private int weight;
     
@@ -21,7 +21,7 @@ public class Actor
     
     public Actor(String surName, String lastName)
     {
-        this.surName = surName;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.responses = new ArrayList<>();
         this.inventory = new HashMap<>();

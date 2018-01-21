@@ -22,7 +22,7 @@ public class Room
     //added private to HashMap and added ArrayList (Thu Ky Vu Hoang)
     private HashMap <String, Room> exits;
     private HashMap<String, Item> items;
-    
+    private HashMap<String, Character> npcs;
 
     /**
      * Create a room described "description". Initially, it has
@@ -57,6 +57,11 @@ public class Room
     public void createItem(String name, String description, int weight) {
         Item item = new Item (name, description, weight);
         items.put(item.getName(), item);
+    }
+    
+    public void createNpc(String fName, String lName, String response) {
+        Character c = new Character(fName, lName, response);
+        npcs.put(fName, c);
     }
     
     public void addItem(Item item) {
