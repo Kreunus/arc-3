@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Iterator;
 /**
  * Beschreiben Sie hier die Klasse Actor.
  * 
@@ -9,41 +10,114 @@ import java.util.Random;
  */
 public class Actor
 {
-    private static int weight_max = 40000;
-    
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private String surName;
+    private String firstName;
     private String lastName;
-    private int weight;
-    
+    private int weight, weight_max = 40000;
+
     private ArrayList<String> responses;
     private HashMap<String, Item> inventory;
-    
-    public Actor(String surName, String lastName)
+
+    /**
+     * Constructor of an object actor
+     */
+    public Actor(String firstName, String lastName)
     {
-        this.surName = surName;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.responses = new ArrayList<>();
         this.inventory = new HashMap<>();
-        
+
         this.weight = 0;
     }
-    
-    public void takeItem(Item item, HashMap<String, Item> roomItems) {
+
+    /**
+     * @return first name of the actor
+     */
+    public String getFirstName() { return firstName; }
+
+    /**
+     * @return last name of the actor
+     */
+    public String getLastName() { return lastName; }
+
+    /**
+     * @return complete name of the actor
+     */
+    public String getName() { return firstName + " " + lastName; }
+
+    /**
+     * @return the String s generated below
+     */
+    public String getDetails() {
+        String s = "Details:";
+        s += "\n" + getName();
+        s += "\nWeight: " + weight + "/" + weight_max;
+        s += "\nList of ";
+        s += getItemStrings();
+        return s;
+    }
+
+    /**
+     * @return the String s generated a list of all items in the bag
+     */
+    public String getItemStrings(){
+        String s = "Items:";
+        for(Item item: inventory.values()){
+            s += "\n" + item.getDetails();
+        }
+        return s;
+    }
+
+    /**
+     * logic of eating an item from the inventory
+     */
+    public void eatItem(String itemName) {
+        if (inventory.get(itemName) != null) {
+            if(inventory.get(itemName).isEatable()) {
+                weight -= inventory.get(itemName).getWeight();
+                inventory.remove(itemName);        
+                System.out.println("You ate " + itemName);
+            }
+            else {
+                System.out.println("You can't eat " + itemName);
+            }
+            if (itemName.toLowerCase().equals("cookie")) {
+                weight_max += 1000;
+                System.out.println("Your max weight increased by 1000!");
+            }
+        }
+        else {
+            System.out.println("There is no such item in your inventory");
+        }
+    }
+
+    /**
+     * logic of taking an item from a room and adding it to the inventory
+     */
+    public void takeItem(String itemName, HashMap<String, Item> roomItems) {
+        Item item = roomItems.get(itemName);
         if (item != null) {
-            this.weight += (item.getWeight());
-            inventory.put(item.getName(), item);
-            roomItems.remove(item.getName());
-            System.out.println("You took " + item.getName());
+            if ((this.weight + item.getWeight()) <= weight_max) {
+                this.weight += (item.getWeight());
+                inventory.put(item.getName(), item);
+                roomItems.remove(item.getName());
+                System.out.println("You took " + item.getName());
+            }
+            else {
+                System.out.println("You can't carry any more items!");
+            }
         }
         else {
             System.out.println("There is no such item. Note upper and lower case writing");
         }
     }
-    
+
+    /**
+     * logic of droping an item from the invetory and adding it to a room
+     */
     public Item dropItem(String itemName, HashMap<String, Item> roomItems) {
-        Item item;
-        if (inventory.get(itemName) != null) {
+        Item item = inventory.get(itemName);
+        if (item != null) {
             item = inventory.get(itemName);
             weight -= item.getWeight();
             inventory.remove(itemName);
@@ -56,18 +130,30 @@ public class Actor
         }
         return null;
     }
-    
-    public void dropAllItems(HashMap<String, Item> roomItems)
-    {
-       for (Item item : inventory.values()) {
-           dropItem(item.getName(), roomItems);
-        }
-    }
-    
+
+    // Not working yet
+    /**
+     * logic of taking all items from a room and adding them to the inventory
+     */   
     public void takeAllItems(HashMap<String, Item> roomItems)
     {
-       for (Item item : roomItems.values()) {
-           takeItem(item, roomItems);
+        Iterator<Item> it = inventory.values().iterator();
+        while (it.hasNext()) {
+            Item item = it.next();
+            dropItem(item.getName(), roomItems);
+        }
+    }
+
+    // Not working yet
+    /**
+     * logic of droping all items from the invetory and adding them to a room
+     */
+    public void dropAllItems(HashMap<String, Item> roomItems)
+    {
+        Iterator<Item> it = inventory.values().iterator();
+        while (it.hasNext()) {
+            Item item = it.next();
+            dropItem(item.getName(), roomItems);
         }
     }
 }

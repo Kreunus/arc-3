@@ -1,22 +1,26 @@
 /**
  * Enumeration class CommandWord - write a description of the enum class here
  *
- * @author Aaron Winter, Sebastian Pütz
- * @version v1
+ * @author Aaron Winter, Sebastian PÃ¼tz
+ * @version 2018/01/21
  */
 public enum CommandWord
 {
-    GO("go"), 
-    QUIT("quit"),
-    LOOK("look"),
-    SEARCH("search"),
-    EAT("eat"),
-    TAKE("take"),
-    DROP("drop"),
+    //aphabetical order
+
     ALICE("alice"),
-    //added back (Thu Ky Vu Hoang)
-    BACK("back"),
+    ASK("ask"),
+    BACK("back"), //by Thu Ky Vu Hoang
+    BAG("bag"),
+    DROP("drop"),
+    EAT("eat"),
+    GO("go"),
     HELP("help");
+    LOOK("look"),
+    QUIT("quit"),
+    SEARCH("search"),
+    TAKE("take"),
+
     
     private String commandWord;
     
@@ -29,6 +33,17 @@ public enum CommandWord
      */
     public String getCommandWord() {
         return commandWord;
+    }
+    
+    /**
+     * @return String s that lists all commands.
+     */
+    public static String getCommandWords() {
+        String s = "\t";
+        for (CommandWord command : CommandWord.values()) {
+            s = s + " " + command.commandWord;
+        }
+        return s;
     }
     
     /**
@@ -58,14 +73,4 @@ public enum CommandWord
         return null;
     }
     
-    /**
-     * @return String s that lists all commands.
-     */
-    public static String getCommandWords() {
-        String s = "\t";
-        for (CommandWord command : CommandWord.values()) {
-            s = s + " " + command.commandWord;
-        }
-        return s;
-    }
 }
