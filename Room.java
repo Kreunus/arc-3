@@ -54,7 +54,7 @@ public class Room
     }
     
     //added addItem method (Thu Ky Vu Hoang)
-    public void addItem(String name, String description, int weight) {
+    public void createItem(String name, String description, int weight) {
         Item item = new Item (name, description, weight);
         items.put(item.getName(), item);
     }

@@ -47,8 +47,7 @@ public class Game
 
         boolean finished = false;
         while (! finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
+            finished = processCommand();
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
@@ -97,14 +96,14 @@ public class Game
         hall5 = new Room("hall (sector 6)", "sec6", "in the animal and plant unit.");
 
         //add items to room (Thu Ky Vu Hoang)
-        armory.addItem("Light Sword", "Meele weapon (low range)", 1000);
-        armory.addItem("Armor", "Clothes that protects if equipped", 6000);
-        armory.addItem("Gun", "Ranged weapon higher damage (need ammunition)",6000);
+        armory.createItem("Light Sword", "Meele weapon (low range)", 1000);
+        armory.createItem("Armor", "Clothes that protects if equipped", 6000);
+        armory.createItem("Gun", "Ranged weapon higher damage (need ammunition)",6000);
 
-        livingRoom1.addItem("Normal Clothes", "Normal Clothes no effect", 2000);
-        livingRoom2.addItem("Normal Clothes", "Normal Clothes no effect", 2000);
-        livingRoom3.addItem("Normal Clothes", "Normal Clothes no effect", 2000);
-        livingRoom4.addItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom1.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom2.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom3.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom4.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
 
         //sets exits for rooms
         navigationRoom.setExit(computationRoom);
@@ -181,28 +180,26 @@ public class Game
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
      */
-    private boolean processCommand(Command command) 
+    private boolean processCommand() 
     {
         boolean wantToQuit = false;
 
-        if(command.isUnknown()) {
+        if(parser.getCommand().isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
         }
-
-        CommandWord commandWord = CommandWord.fromString(command.getCommandWord());
-
-        switch(commandWord) {
+        
+        switch(parser.getCommandWord()) {
             case HELP: printHelp(); break;
-            case GO: goRoom(command); break;
+            case GO: goRoom(); break;
             case LOOK: look(); break;
-            case SEARCH: search(command); break;
-            case EAT: eat(command); break;
-            case ALICE: alice(command); break;
-            case TAKE: take(command); break;
-            case DROP: drop(command); break;
-            case BACK: goBack(command); break;
-            case QUIT: wantToQuit = quit(command); break;
+            case SEARCH: search(); break;
+            case EAT: eat(); break;
+            case ALICE: alice(); break;
+            case TAKE: take(); break;
+            case DROP: drop(); break;
+            case BACK: goBack(); break;
+            case QUIT: wantToQuit = quit(); break;
         }
 
         return wantToQuit;
@@ -221,7 +218,7 @@ public class Game
         System.out.println("around at the university.");
         System.out.println();
         System.out.println("Your command words are:");
-        System.out.println(CommandWord.getCommandWords());
+        System.out.println(parser.getCommandWords());
     }
 
     private void printLocation() {
@@ -237,15 +234,15 @@ public class Game
      * Try to go to one direction. If there is an exit, enter
      * the new room, otherwise print an error message.
      */
-    private void goRoom(Command command) 
+    private void goRoom() 
     {   
-        if(!command.hasSecondWord()) {
+        if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
             return;
         }
 
-        String direction = command.getSecondWord();
+        String direction = parser.getCommand().getSecondWord();
 
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
@@ -268,8 +265,8 @@ public class Game
         printLocation();
     }
 
-    private void search(Command command) {
-        if(!command.hasSecondWord()) {
+    private void search() {
+        if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Search what?");
             return;
@@ -280,8 +277,8 @@ public class Game
 
     }
 
-    private void eat(Command command) {
-        if(!command.hasSecondWord()) {
+    private void eat() {
+        if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Eat what?");
             return;
@@ -291,8 +288,8 @@ public class Game
         }
     }
 
-    private void alice(Command command) {
-        if(!command.hasSecondWord()) {
+    private void alice() {
+        if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("ALICE: How can I help you?");
             return;
@@ -302,39 +299,39 @@ public class Game
         }
     }
 
-    private void take(Command command) {
-        if(!command.hasSecondWord()) {
+    private void take() {
+        if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word...
             System.out.println("What item?");
             return;
         }
         else {
-            if(command.getSecondWord().equals("all"))
-                player.takeAllItems(currentRoom);
+            if(parser.getCommand().getSecondWord().equals("all"))
+                player.takeAllItems(currentRoom.getItems());
             else
-            player.takeItem(currentRoom.getItem(command.getSecondWord()), currentRoom);
+            player.takeItem(currentRoom.getItem(parser.getCommand().getSecondWord()), currentRoom.getItems());
         }
     }
 
-    private void drop(Command command) {
-        if(!command.hasSecondWord()) {
+    private void drop() {
+        if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word...
             System.out.println("What item?");
             return;
         }
         else {
-            if(command.getSecondWord().equals("all"))
-                player.dropAllItems(currentRoom);
+            if(parser.getCommand().getSecondWord().equals("all"))
+                player.dropAllItems(currentRoom.getItems());
             else
-                player.dropItem(command.getSecondWord(), currentRoom);
+                player.dropItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
         }
     }
     
     
 
     //goBack method (Thu Ky Vu Hoang)
-    private void goBack(Command command){
-        if(command.hasSecondWord()) {
+    private void goBack(){
+        if(parser.getCommand().hasSecondWord()) {
             System.out.println("What ?");
             return;
         }
@@ -353,9 +350,9 @@ public class Game
      * whether we really quit the game.
      * @return true, if this command quits the game, false otherwise.
      */
-    private boolean quit(Command command) 
+    private boolean quit() 
     {
-        if(command.hasSecondWord()) {
+        if(parser.getCommand().hasSecondWord()) {
             System.out.println("Quit what?");
             return false;
         }

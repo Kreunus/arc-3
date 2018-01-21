@@ -29,11 +29,11 @@ public class Actor
         this.weight = 0;
     }
     
-    public void takeItem(Item item, Room currentRoom) {
+    public void takeItem(Item item, HashMap<String, Item> roomItems) {
         if (item != null) {
             this.weight += (item.getWeight());
             inventory.put(item.getName(), item);
-            currentRoom.removeItem(item.getName());
+            roomItems.remove(item.getName());
             System.out.println("You took " + item.getName());
         }
         else {
@@ -41,13 +41,13 @@ public class Actor
         }
     }
     
-    public Item dropItem(String itemName, Room currentRoom) {
+    public Item dropItem(String itemName, HashMap<String, Item> roomItems) {
         Item item;
         if (inventory.get(itemName) != null) {
             item = inventory.get(itemName);
             weight -= item.getWeight();
             inventory.remove(itemName);
-            currentRoom.addItem(item);
+            roomItems.put(itemName, item);
             System.out.println("You dropped " + itemName);
             return item;
         }
@@ -57,17 +57,17 @@ public class Actor
         return null;
     }
     
-    public void dropAllItems(Room currentRoom)
+    public void dropAllItems(HashMap<String, Item> roomItems)
     {
        for (Item item : inventory.values()) {
-           dropItem(item.getName(), currentRoom);
+           dropItem(item.getName(), roomItems);
         }
     }
     
-    public void takeAllItems(Room currentRoom)
+    public void takeAllItems(HashMap<String, Item> roomItems)
     {
-       for (Item item : currentRoom.getItems().values()) {
-           takeItem(item, currentRoom);
+       for (Item item : roomItems.values()) {
+           takeItem(item, roomItems);
         }
     }
 }

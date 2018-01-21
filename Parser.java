@@ -20,7 +20,7 @@ import java.util.StringTokenizer;
 public class Parser 
 {
     private Scanner reader;         // source of command input
-
+    Command command;
     /**
      * Create a parser to read from the terminal window.
      */
@@ -55,10 +55,21 @@ public class Parser
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
         if(CommandWord.isCommand(word1)) {
+            command = new Command(word1, word2);
             return new Command(word1, word2);
         }
         else {
+            command = new Command(null, word2);
             return new Command(null, word2); 
         }
+    }
+    
+    public String getCommandWords() {
+        return CommandWord.getCommandWords();
+    }
+    
+    public CommandWord getCommandWord() {
+        
+        return CommandWord.fromString(command.getCommandWord());
     }
 }
