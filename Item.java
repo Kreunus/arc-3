@@ -8,8 +8,11 @@ public class Item
 {
     // instance variables - replace the example below with your own
     private String name;
-    private int weight;
     private String description;
+    
+    private int weight;
+    private int calories;
+    
     private boolean pickable;
     private boolean eatable;
 
@@ -18,21 +21,25 @@ public class Item
      */
     public Item(String name, String description, int weight)
     {
-        this(name, description, weight, false, true);
+        this(name, description, weight, false, 0, true);
     }
 
-    public Item(String name, String description, int weight, boolean eatable)
+    public Item(String name, String description, int weight, boolean eatable, int calories)
     {
-        this(name, description, weight, eatable, true);
+        this(name, description, weight, eatable, 0, true);
     }
 
-    public Item(String name, String description, int weight, boolean eatable, boolean pickable)
+    public Item(String name, String description, int weight, boolean eatable, int calories, boolean pickable)
     {
         this.name = name;
         this.description = description;
         this.weight = weight;
         this.eatable = eatable;
         this.pickable = pickable;
+        if (eatable)
+            this.calories = calories;
+        else
+            this.calories = 0;
     }
     
     public String getDetails() {

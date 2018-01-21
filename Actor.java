@@ -10,13 +10,15 @@ import java.util.Iterator;
  */
 public class Actor
 {
-    private static int weight_max = 40000;
-
+    private static int WEIGHT_MAX = 40000;
+    private static int CALORIES_MAX = 2500;
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
     private String firstName;
     private String lastName;
+    
     private int weight;
-
+    private int calories;
+    
     private ArrayList<String> responses;
     private HashMap<String, Item> inventory;
 
@@ -28,12 +30,24 @@ public class Actor
         this.inventory = new HashMap<>();
 
         this.weight = 0;
+        this.calories = CALORIES_MAX;
+    }
+    
+    public boolean step() {
+        calories -= 10;
+        
+        if (calories <= 0) {
+            System.out.println("You starved! Game Over!");
+            return true;
+        }
+        return false;
     }
     
     public String getDetails() {
         String s = "Details:";
         s += "\n" + getName();
-        s += "\nWeight: " + weight + "/" + weight_max;
+        s += "\nWeight: " + weight + "/" + WEIGHT_MAX;
+        s += "\nKalories: " + calories + "/" + CALORIES_MAX;
         s += "\nList of ";
         s += getItemStrings();
         return s;
@@ -58,7 +72,7 @@ public class Actor
                 System.out.println("You can't eat " + itemName);
             }
             if (itemName.toLowerCase().equals("cookie")) {
-                weight_max += 1000;
+                WEIGHT_MAX += 1000;
                 System.out.println("Your max weight increased by 1000!");
             }
         }
@@ -70,7 +84,7 @@ public class Actor
     public void takeItem(String itemName, HashMap<String, Item> roomItems) {
         Item item = roomItems.get(itemName);
         if (item != null) {
-            if ((this.weight + item.getWeight()) <= weight_max) {
+            if ((this.weight + item.getWeight()) <= WEIGHT_MAX) {
                 this.weight += (item.getWeight());
                 inventory.put(item.getName(), item);
                 roomItems.remove(item.getName());

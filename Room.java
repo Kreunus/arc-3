@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Random;
 /**
  * Class Room - a room in an adventure game.
  *
@@ -55,16 +56,7 @@ public class Room
     }
 
     //added addItem method (Thu Ky Vu Hoang)
-    public void newItem(String name, String description, int weight) {
-        newItem(name, description, weight, false, true);
-    }
-
-    public void newItem(String name, String description, int weight, boolean eatable) {
-        newItem(name, description, weight, eatable, true);
-    }
-
-    public void newItem(String name, String description, int weight, boolean eatable, boolean pickable) {
-        Item item = new Item (name, description, weight, eatable, pickable);
+    public void addItem(Item item) {
         items.put(item.getName(), item);
     }
 
@@ -79,10 +71,6 @@ public class Room
         return name + ": \"" + npcs.get(name).getResponse() + "\"";
     }
 
-    public void addItem(Item item) {
-        items.put(item.getName(), item);
-    } 
-
     public void removeItem(String name) {
         items.remove(name);
     }
@@ -95,7 +83,7 @@ public class Room
         }
         return s;
     }
-
+    
     public String getCharacterStrings() {
         String s = "Characters:";
         for (Character c : npcs.values()) {

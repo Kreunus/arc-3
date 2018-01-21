@@ -22,7 +22,7 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Actor player;
-
+    boolean wantToQuit;
     //saves the current room before going to the next (Thu Ky Vu Hoang)
     private Stack<Room> previousRooms;
 
@@ -34,6 +34,7 @@ public class Game
         createRooms();
         previousRooms = new Stack<Room>();
         parser = new Parser();
+        wantToQuit = false;
     }
 
     /**
@@ -88,21 +89,29 @@ public class Game
         Room hall3 = new Room("sector 4", "sec4", "in the crew living unit.");
         Room hall4 = new Room("sector 5", "sec5", "in the cryo chamber unit.");
         Room hall5 = new Room("hall (sector 6)", "sec6", "in the animal and plant unit.");
+        
+        // FRUITS
+        Item banana = new Item("Banana", "It's a banana. Bananas are cool!", 100, true, 200);
+        Item orange = new Item("Orange", "So orange...", 100, true, 200);
+        Item apple = new Item("Apple", "An apple a day, keeps the doctor away!", 100, true, 200);
+        Item cookie = new Item("Cookie", "Increases maximum weight", 50, true, 200);
+        
+        // OTHER STUFF
+        Item recycler = new Item("Recycler", "A big Mashine for recycling stuff", 500000);
+        Item tool = new Item("Tool", "A Tool", 100);
+        Item clothes = new Item("Clothes", "Normal Clothes no effect", 2000);
+        
+        laboratory.addItem(cookie);
+        laboratory.addItem(banana);
+        laboratory.addItem(banana);
+        laboratory.addItem(banana);
+        laboratory.addItem(tool);
+        laboratory.addItem(recycler);
 
-        //add items to room (Thu Ky Vu Hoang)
-        armory.newItem("Sword", "Meele weapon (low range)", 1000);
-        armory.newItem("Armor", "Clothes that protects if equipped", 6000);
-        armory.newItem("Gun", "Ranged weapon higher damage (need ammunition)",6000);
-
-        laboratory.newItem("Cookie", "Increases maximum weight", 50, true);
-        laboratory.newItem("Banana", "It's a banana. Bananas are cool!", 100, true);
-        laboratory.newItem("Tool", "A Tool", 100);
-        laboratory.newItem("Recycler", "A big Mashine for recycling stuff", 500000);
-
-        livingRoom1.newItem("Clothes", "Normal Clothes no effect", 2000);
-        livingRoom2.newItem("Clothes", "Normal Clothes no effect", 2000);
-        livingRoom3.newItem("Clothes", "Normal Clothes no effect", 2000);
-        livingRoom4.newItem("Clothes", "Normal Clothes no effect", 2000);
+        livingRoom1.addItem(banana);
+        livingRoom2.addItem(clothes);
+        livingRoom3.addItem(orange);
+        livingRoom4.addItem(clothes);
 
         livingRoom3.newNpc("Oprah", "Winfrey", "Hey " + player.getFirstName() + ", how are you?");
         captainCell.newNpc("Noah", "Windbreaker", "What are you doing in my office!");
@@ -184,8 +193,6 @@ public class Game
      */
     private boolean processCommand() 
     {
-        boolean wantToQuit = false;
-
         if(parser.getNewCommand().isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
@@ -255,10 +262,15 @@ public class Game
             // save current position (Thu Ky Vu Hoang)
             previousRooms.push(currentRoom);
             currentRoom = nextRoom;
+            step();
             printLocation();
         }
     }
-
+    
+    private void step() {
+        wantToQuit = player.step();
+    }
+    
     /**
      * The player looks around. For now nothing happens...
      */
