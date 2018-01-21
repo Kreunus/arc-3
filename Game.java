@@ -29,8 +29,8 @@ public class Game
      * Create the game and initialise its internal map.
      */
     public Game() {
-        createRooms();
         player = new Actor("Richard", "Clarke");
+        createRooms();
         previousRooms = new Stack<Room>();
         parser = new Parser();
     }
@@ -51,61 +51,55 @@ public class Game
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
-
+    
     /**
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room navigationRoom, computationRoom;
-        Room laboratory, armory, meetingRoom ;
-        Room aiCore, engineRoom1, engineRoom2;
-        Room livingRoom1, livingRoom2, livingRoom3, livingRoom4;
-        Room cryoRoom1, cryoRoom2;
-        Room animalRoom1, animalRoom2, plantRoom1, plantRoom2;
-        Room hall1, hall2, hall3, hall4, hall5;
-
         //initialize rooms
-        navigationRoom = new Room("navigation room", "nav", "in the navigation room.");
-        computationRoom = new Room("computing room", "com", "in the computing room.");
+        Room navigationRoom = new Room("navigation room", "nav", "in the navigation room.");
+        Room computationRoom = new Room("computing room", "com", "in the computing room.");
 
-        laboratory = new Room("laboratory", "lab", "in the laboratory.");
-        armory = new Room("armory", "arm", "in the armory.");
-        meetingRoom = new Room("meeting room", "meet", "in the meeting room.");
+        Room laboratory = new Room("laboratory", "lab", "in the laboratory.");
+        Room armory = new Room("armory", "arm", "in the armory.");
+        Room meetingRoom = new Room("meeting room", "meet", "in the meeting room.");
+        Room captainCell = new Room("Captain Cell", "cc", "in the room of the captain.");
+        
+        Room aiCore = new Room("core room", "core", "in the artificial intelligence core room.");
+        Room engineRoom1 = new Room("enginge room 1", "eng1", "in the engine room 1.");
+        Room engineRoom2 = new Room("engine room 2", "eng2", "in the engine room 2.");
 
-        aiCore = new Room("core room", "core", "in the artificial intelligence core room.");
-        engineRoom1 = new Room("enginge room 1", "eng1", "in the engine room 1.");
-        engineRoom2 = new Room("engine room 2", "eng2", "in the engine room 2.");
+        Room cryoRoom1 = new Room("cryo room 1", "cryo1", "in the cryo room 1.");
+        Room cryoRoom2 = new Room("cryo room 2", "cryo2", "in the cryo room 2.");
 
-        cryoRoom1 = new Room("cryo room 1", "cryo1", "in the cryo room 1.");
-        cryoRoom2 = new Room("cryo room 2", "cryo2", "in the cryo room 2.");
+        Room livingRoom1 = new Room("living cell 1", "cell1", "in the living cell 1.");
+        Room livingRoom2 = new Room("living cell 2", "cell2", "in your living cell 2.");
+        Room livingRoom3 = new Room("living cell 3", "cell3", "in the living cell 3.");
+        Room livingRoom4 = new Room("living cell 4", "cell4", "in the living cell 4.");
 
-        livingRoom1 = new Room("living cell 1", "cell1", "in the living cell 1.");
-        livingRoom2 = new Room("living cell 2", "cell2", "in your living cell 2.");
-        livingRoom3 = new Room("living cell 3", "cell3", "in the living cell 3.");
-        livingRoom4 = new Room("living cell 4", "cell4", "in the living cell 4.");
+        Room animalRoom1 = new Room("animal room 1", "anim1", "in the animal room 1.");
+        Room animalRoom2 = new Room("animal room 2", "anim2", "in the animal room 2.");
+        Room plantRoom1 = new Room("plant room 1", "plant1", "in the plant room 1.");
+        Room plantRoom2 = new Room("plant room 2", "plant2", "in the plant room 2.");
 
-        animalRoom1 = new Room("animal room 1", "anim1", "in the animal room 1.");
-        animalRoom2 = new Room("animal room 2", "anim2", "in the animal room 2.");
-        plantRoom1 = new Room("plant room 1", "plant1", "in the plant room 1.");
-        plantRoom2 = new Room("plant room 2", "plant2", "in the plant room 2.");
-
-        hall1 = new Room("sector 2", "sec2", "in the communication unit.");
-        hall2 = new Room("sector 3", "sec3", "in the technical unit.");
-        hall3 = new Room("sector 4", "sec4", "in the crew living unit.");
-        hall4 = new Room("sector 5", "sec5", "in the cryo chamber unit.");
-        hall5 = new Room("hall (sector 6)", "sec6", "in the animal and plant unit.");
+        Room hall1 = new Room("sector 2", "sec2", "in the communication unit.");
+        Room hall2 = new Room("sector 3", "sec3", "in the technical unit.");
+        Room hall3 = new Room("sector 4", "sec4", "in the crew living unit.");
+        Room hall4 = new Room("sector 5", "sec5", "in the cryo chamber unit.");
+        Room hall5 = new Room("hall (sector 6)", "sec6", "in the animal and plant unit.");
 
         //add items to room (Thu Ky Vu Hoang)
-        armory.createItem("Light Sword", "Meele weapon (low range)", 1000);
-        armory.createItem("Armor", "Clothes that protects if equipped", 6000);
-        armory.createItem("Gun", "Ranged weapon higher damage (need ammunition)",6000);
+        armory.newItem("Light Sword", "Meele weapon (low range)", 1000);
+        armory.newItem("Armor", "Clothes that protects if equipped", 6000);
+        armory.newItem("Gun", "Ranged weapon higher damage (need ammunition)",6000);
 
-        livingRoom1.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
-        livingRoom2.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
-        livingRoom3.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
-        livingRoom4.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom1.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom2.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom3.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom4.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
            
-        livingRoom3.createNpc("Aaron", "Winter", "Hallo, wie gehts?");
+        livingRoom3.newNpc("Oprah", "Winfrey", "Hey " + player.getFirstName() + ", how are you?");
+        captainCell.newNpc("Noah", "Windbreaker", "What are you doing in my office!");
         
         //sets exits for rooms
         navigationRoom.setExit(computationRoom);
@@ -226,13 +220,8 @@ public class Game
 
     private void printLocation() {
         System.out.println("You are " + currentRoom.getDescription());
-        System.out.println("Characters:");
-        System.out.println(currentRoom.printCharacters());
-        //call the printItem method (Thu Ky Vu Hoang)
-        System.out.println("Items: ");
-        System.out.print(currentRoom.printItem());
-        System.out.println("Exits: ");
-        System.out.println(currentRoom.getExitStrings());
+        System.out.println(currentRoom.getLongDescription());
+        
     }
 
     /** 

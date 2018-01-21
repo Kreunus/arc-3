@@ -70,4 +70,6 @@ public class Actor
            takeItem(item, roomItems);
         }
     }
+    
+    public String getFirstName() { return firstName; }
 }

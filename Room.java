@@ -55,12 +55,12 @@ public class Room
     }
     
     //added addItem method (Thu Ky Vu Hoang)
-    public void createItem(String name, String description, int weight) {
+    public void newItem(String name, String description, int weight) {
         Item item = new Item (name, description, weight);
         items.put(item.getName(), item);
     }
     
-    public void createNpc(String fName, String lName, String response) {
+    public void newNpc(String fName, String lName, String response) {
         Character c = new Character(fName, lName, response);
         npcs.put(fName, c);
     }
@@ -80,20 +80,32 @@ public class Room
     }
     
     //added printItem method (Thu Ky Vu Hoang)
-    public String printItem(){
-        String allItems = "";
+    public String getItemStrings(){
+        String s = "Items:";
         for(Item item: items.values()){
-           allItems += item.getName() + ": " + item.getItemDescription() + "\n";
-        }
-        return allItems;
-    }
-    
-    public String printCharacters() {
-        String s = "";
-        for (Character c : npcs.values()) {
-            s += c.getName();
+           s += "\n" + item.getName() + ": " + item.getItemDescription();
         }
         return s;
+    }
+    
+    public String getCharacterStrings() {
+        String s = "Characters:";
+        for (Character c : npcs.values()) {
+            s += "\n" + c.getName();
+        }
+        return s;
+    }
+    
+    public String getExitStrings() {
+        String s = "Exits:";
+        for (String exit : exits.keySet()) {
+            s += "\n" + exits.get(exit).getName() + " (" + exit + ")";
+        }
+        return s;
+    }
+    
+    public String getLongDescription() {
+        return getCharacterStrings() + "\n" + getItemStrings() + "\n" + getExitStrings();
     }
     
     public Item getItem(String itemName) {
@@ -120,14 +132,6 @@ public class Room
      */
     public String getId() {
         return id;
-    }
-    
-    public String getExitStrings() {
-        String s = "";
-        for (String exit : exits.keySet()) {
-            s = s + exits.get(exit).getName() + " (" + exit + ")\n";
-        }
-        return s;
     }
 
 }
