@@ -2,7 +2,7 @@
 /**
  * The class character manages npcs in the game
  *
- * @author Aaron Winter, Sebastian PÃ¼tz
+ * @author Aaron Winter, Sebastian Pütz
  * @version 2018/01/21
  */
 public class Character
