@@ -69,7 +69,6 @@ public class Parser
     }
     
     public CommandWord getCommandWord() {
-        
         return CommandWord.fromString(command.getCommandWord());
     }
 }

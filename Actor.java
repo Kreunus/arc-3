@@ -4,8 +4,8 @@ import java.util.Random;
 /**
  * Beschreiben Sie hier die Klasse Actor.
  * 
- * @author (Ihr Name) 
- * @version (eine Versionsnummer oder ein Datum)
+ * @author Aaron Winter 
+ * @version 2018.01.21
  */
 public class Actor
 {
