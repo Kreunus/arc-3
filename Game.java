@@ -90,10 +90,12 @@ public class Game
         Room hall5 = new Room("hall (sector 6)", "sec6", "in the animal and plant unit.");
 
         //add items to room (Thu Ky Vu Hoang)
-        armory.newItem("Light Sword", "Meele weapon (low range)", 1000);
+        armory.newItem("Sword", "Meele weapon (low range)", 1000);
         armory.newItem("Armor", "Clothes that protects if equipped", 6000);
         armory.newItem("Gun", "Ranged weapon higher damage (need ammunition)",6000);
-
+        
+        laboratory.newItem("Magic Cookie", "Increases maximum weight", 200, true);
+        
         livingRoom1.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
         livingRoom2.newItem("Normal Clothes", "Normal Clothes no effect", 2000);
         livingRoom3.newItem("Normal Clothes", "Normal Clothes no effect", 2000);

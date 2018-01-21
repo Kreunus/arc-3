@@ -10,36 +10,52 @@ public class Item
     private String name;
     private int weight;
     private String description;
-    
+    private boolean pickable;
+    private boolean eatable;
+
     /**
      * Constructor for objects of class Item
      */
     public Item(String name, String description, int weight)
     {
-        // initialise instance variables
+        this(name, description, weight, false, true);
+    }
+
+    public Item(String name, String description, int weight, boolean eatable)
+    {
+        this(name, description, weight, eatable, true);
+    }
+
+    public Item(String name, String description, int weight, boolean eatable, boolean pickable)
+    {
         this.name = name;
         this.description = description;
         this.weight = weight;
+        this.eatable = eatable;
+        this.pickable = pickable;
     }
 
     /**
      * @return name of an item.
      */
-    public String getName(){
+    public String getName() {
         return name;
     }
-    
+
     /**
      * @return description of an item.
      */
     public String getItemDescription(){
         return description;
     }
-    
+
     /**
      * @return weight of an item.
      */
     public int getWeight(){
         return weight;
     }
+    
+    public boolean isEatable() { return eatable; }
+    public boolean isPickable() { return pickable; }
 }

@@ -49,45 +49,53 @@ public class Room
     public void setExit(Room room) {
         exits.put(room.getId(), room);
     }
-    
+
     public Room getExit(String name) {
         return exits.get(name);
     }
-    
+
     //added addItem method (Thu Ky Vu Hoang)
     public void newItem(String name, String description, int weight) {
-        Item item = new Item (name, description, weight);
+        newItem(name, description, weight, false, true);
+    }
+
+    public void newItem(String name, String description, int weight, boolean eatable) {
+        newItem(name, description, weight, eatable, true);
+    }
+
+    public void newItem(String name, String description, int weight, boolean eatable, boolean pickable) {
+        Item item = new Item (name, description, weight, eatable, pickable);
         items.put(item.getName(), item);
     }
-    
+
     public void newNpc(String fName, String lName, String response) {
         Character c = new Character(fName, lName, response);
         npcs.put(fName, c);
     }
-    
+
     public String getResponseFromCharacter(String name) {
         if(npcs.get(name) == null)
             return "There is no " + name;
         return name + ": \"" + npcs.get(name).getResponse() + "\"";
     }
-    
+
     public void addItem(Item item) {
         items.put(item.getName(), item);
     } 
-    
+
     public void removeItem(String name) {
         items.remove(name);
     }
-    
+
     //added printItem method (Thu Ky Vu Hoang)
     public String getItemStrings(){
         String s = "Items:";
         for(Item item: items.values()){
-           s += "\n" + item.getName() + ": " + item.getItemDescription();
+            s += "\n" + item.getName() + ": " + item.getItemDescription();
         }
         return s;
     }
-    
+
     public String getCharacterStrings() {
         String s = "Characters:";
         for (Character c : npcs.values()) {
@@ -95,7 +103,7 @@ public class Room
         }
         return s;
     }
-    
+
     public String getExitStrings() {
         String s = "Exits:";
         for (String exit : exits.keySet()) {
@@ -103,30 +111,31 @@ public class Room
         }
         return s;
     }
-    
+
     public String getLongDescription() {
         return getCharacterStrings() + "\n" + getItemStrings() + "\n" + getExitStrings();
     }
-    
+
     public Item getItem(String itemName) {
         return items.get(itemName);
     }
-    
+
     public HashMap<String, Item> getItems() { return items; }
+
     /**
      * @return The description of the room.
      */
     public String getDescription() {
         return description;
     }
-    
+
     /**
      * @return The name of the room.
      */
     public String getName() {
         return name;
     }
-    
+
     /**
      * @return The id of the room.
      */
