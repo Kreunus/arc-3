@@ -13,25 +13,25 @@ import java.util.Stack;
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * @author  Michael Kolling, David J. Barnes, Aaron Winter, Sebastian Pütz, Thu Ky Vu Hoang
+ * @author  Michael Kolling and David J. Barnes
  * @version 2008.03.30
  */
 
 public class Game 
 {
-    private Actor player;
     private Parser parser;
     private Room currentRoom;
+    private Actor player;
 
     //saves the current room before going to the next (Thu Ky Vu Hoang)
     private Stack<Room> previousRooms;
-
+    
     /**
      * Create the game and initialise its internal map.
      */
     public Game() {
-        player = new Actor("Richard", "Clarke");
         createRooms();
+        player = new Actor("Richard", "Clarke");
         previousRooms = new Stack<Room>();
         parser = new Parser();
     }
@@ -57,55 +57,54 @@ public class Game
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
+        Room navigationRoom, computationRoom;
+        Room laboratory, armory, meetingRoom ;
+        Room aiCore, engineRoom1, engineRoom2;
+        Room livingRoom1, livingRoom2, livingRoom3, livingRoom4;
+        Room cryoRoom1, cryoRoom2;
+        Room animalRoom1, animalRoom2, plantRoom1, plantRoom2;
+        Room hall1, hall2, hall3, hall4, hall5;
+
         //initialize rooms
-        Room navigationRoom = new Room("navigation room", "nav", "in the navigation room.");
-        Room computationRoom = new Room("computing room", "com", "in the computing room.");
+        navigationRoom = new Room("navigation room", "nav", "in the navigation room.");
+        computationRoom = new Room("computing room", "com", "in the computing room.");
 
-        Room laboratory = new Room("laboratory", "lab", "in the laboratory.");
-        Room armory = new Room("armory", "arm", "in the armory.");
-        Room meetingRoom = new Room("meeting room", "meet", "in the meeting room.");
-        Room captainCell = new Room("Captain Cell", "cc", "in the room of the captain.");
+        laboratory = new Room("laboratory", "lab", "in the laboratory.");
+        armory = new Room("armory", "arm", "in the armory.");
+        meetingRoom = new Room("meeting room", "meet", "in the meeting room.");
 
-        Room aiCore = new Room("core room", "core", "in the artificial intelligence core room.");
-        Room engineRoom1 = new Room("enginge room 1", "eng1", "in the engine room 1.");
-        Room engineRoom2 = new Room("engine room 2", "eng2", "in the engine room 2.");
+        aiCore = new Room("core room", "core", "in the artificial intelligence core room.");
+        engineRoom1 = new Room("enginge room 1", "eng1", "in the engine room 1.");
+        engineRoom2 = new Room("engine room 2", "eng2", "in the engine room 2.");
 
-        Room cryoRoom1 = new Room("cryo room 1", "cryo1", "in the cryo room 1.");
-        Room cryoRoom2 = new Room("cryo room 2", "cryo2", "in the cryo room 2.");
+        cryoRoom1 = new Room("cryo room 1", "cryo1", "in the cryo room 1.");
+        cryoRoom2 = new Room("cryo room 2", "cryo2", "in the cryo room 2.");
 
-        Room livingRoom1 = new Room("living cell 1", "cell1", "in the living cell 1.");
-        Room livingRoom2 = new Room("living cell 2", "cell2", "in your living cell 2.");
-        Room livingRoom3 = new Room("living cell 3", "cell3", "in the living cell 3.");
-        Room livingRoom4 = new Room("living cell 4", "cell4", "in the living cell 4.");
+        livingRoom1 = new Room("living cell 1", "cell1", "in the living cell 1.");
+        livingRoom2 = new Room("living cell 2", "cell2", "in your living cell 2.");
+        livingRoom3 = new Room("living cell 3", "cell3", "in the living cell 3.");
+        livingRoom4 = new Room("living cell 4", "cell4", "in the living cell 4.");
 
-        Room animalRoom1 = new Room("animal room 1", "anim1", "in the animal room 1.");
-        Room animalRoom2 = new Room("animal room 2", "anim2", "in the animal room 2.");
-        Room plantRoom1 = new Room("plant room 1", "plant1", "in the plant room 1.");
-        Room plantRoom2 = new Room("plant room 2", "plant2", "in the plant room 2.");
+        animalRoom1 = new Room("animal room 1", "anim1", "in the animal room 1.");
+        animalRoom2 = new Room("animal room 2", "anim2", "in the animal room 2.");
+        plantRoom1 = new Room("plant room 1", "plant1", "in the plant room 1.");
+        plantRoom2 = new Room("plant room 2", "plant2", "in the plant room 2.");
 
-        Room hall1 = new Room("sector 2", "sec2", "in the communication unit.");
-        Room hall2 = new Room("sector 3", "sec3", "in the technical unit.");
-        Room hall3 = new Room("sector 4", "sec4", "in the crew living unit.");
-        Room hall4 = new Room("sector 5", "sec5", "in the cryo chamber unit.");
-        Room hall5 = new Room("hall (sector 6)", "sec6", "in the animal and plant unit.");
+        hall1 = new Room("sector 2", "sec2", "in the communication unit.");
+        hall2 = new Room("sector 3", "sec3", "in the technical unit.");
+        hall3 = new Room("sector 4", "sec4", "in the crew living unit.");
+        hall4 = new Room("sector 5", "sec5", "in the cryo chamber unit.");
+        hall5 = new Room("hall (sector 6)", "sec6", "in the animal and plant unit.");
 
         //add items to room (Thu Ky Vu Hoang)
-        armory.newItem("Sword", "Meele weapon (low range)", 1000);
-        armory.newItem("Armor", "Clothes that protects if equipped", 6000);
-        armory.newItem("Gun", "Ranged weapon higher damage (need ammunition)",6000);
+        armory.createItem("Light Sword", "Meele weapon (low range)", 1000);
+        armory.createItem("Armor", "Clothes that protects if equipped", 6000);
+        armory.createItem("Gun", "Ranged weapon higher damage (need ammunition)",6000);
 
-        laboratory.newItem("Cookie", "Increases maximum weight", 50, true);
-        laboratory.newItem("Banana", "It's a banana. Bananas are cool!", 100, true);
-        laboratory.newItem("Tool", "A Tool", 100);
-        laboratory.newItem("Recycler", "A big Mashine for recycling stuff", 500000);
-
-        livingRoom1.newItem("Clothes", "Normal Clothes no effect", 2000);
-        livingRoom2.newItem("Clothes", "Normal Clothes no effect", 2000);
-        livingRoom3.newItem("Clothes", "Normal Clothes no effect", 2000);
-        livingRoom4.newItem("Clothes", "Normal Clothes no effect", 2000);
-
-        livingRoom3.newNpc("Oprah", "Winfrey", "Hey " + player.getFirstName() + ", how are you?");
-        captainCell.newNpc("Noah", "Windbreaker", "What are you doing in my office!");
+        livingRoom1.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom2.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom3.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
+        livingRoom4.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
 
         //sets exits for rooms
         navigationRoom.setExit(computationRoom);
@@ -186,28 +185,24 @@ public class Game
     {
         boolean wantToQuit = false;
 
-        if(parser.getNewCommand().isUnknown()) {
+        if(parser.getCommand().isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
         }
-
+        
         switch(parser.getCommandWord()) {
-            
-            //alphabetical order
-            case ALICE: alice(); break;
-            case ASK: ask(); break;
-            case BACK: goBack(); break;
-            case BAG: bag(); break;   
-            case DROP: drop(); break;
-            case EAT: eat(); break; 
-            case GO: goRoom(); break;
             case HELP: printHelp(); break;
+            case GO: goRoom(); break;
             case LOOK: look(); break;
-            case QUIT: wantToQuit = quit(); break;
             case SEARCH: search(); break;
+            case EAT: eat(); break;
+            case ALICE: alice(); break;
             case TAKE: take(); break;
-                       
+            case DROP: drop(); break;
+            case BACK: goBack(); break;
+            case QUIT: wantToQuit = quit(); break;
         }
+
         return wantToQuit;
     }
 
@@ -226,14 +221,14 @@ public class Game
         System.out.println("Your command words are:");
         System.out.println(parser.getCommandWords());
     }
-    
-    /**
-     * Method that is used to pringt out the current location of.
-     */
+
     private void printLocation() {
         System.out.println("You are " + currentRoom.getDescription());
-        System.out.println(currentRoom.getLongDescription());
-
+        //call the printItem method (Thu Ky Vu Hoang)
+        System.out.println("Items: ");
+        System.out.print(currentRoom.printItem());
+        System.out.println("Exits: ");
+        System.out.println(currentRoom.getExitStrings());
     }
 
     /** 
@@ -282,10 +277,7 @@ public class Game
         }
 
     }
-    
-    /**
-     * A method that manages the logic of the command eat and the second word
-     */
+
     private void eat() {
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
@@ -293,18 +285,7 @@ public class Game
             return;
         }
         else {
-            player.eatItem(parser.getCommand().getSecondWord());
-        }
-    }
-
-    private void ask() {
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Ask who?");
-            return;
-        }
-        else {
-            System.out.println(currentRoom.getResponseFromCharacter(parser.getCommand().getSecondWord()));
+            System.out.println("You cannot eat that ...");
         }
     }
 
@@ -318,11 +299,38 @@ public class Game
             System.out.println("ALICE: I'm afraid I can't help you with that.");
         }
     }
+
+    private void take() {
+        if(!parser.getCommand().hasSecondWord()) {
+            // if there is no second word...
+            System.out.println("What item?");
+            return;
+        }
+        else {
+            if(parser.getCommand().getSecondWord().equals("all"))
+                player.takeAllItems(currentRoom.getItems());
+            else
+            player.takeItem(currentRoom.getItem(parser.getCommand().getSecondWord()), currentRoom.getItems());
+        }
+    }
+
+    private void drop() {
+        if(!parser.getCommand().hasSecondWord()) {
+            // if there is no second word...
+            System.out.println("What item?");
+            return;
+        }
+        else {
+            if(parser.getCommand().getSecondWord().equals("all"))
+                player.dropAllItems(currentRoom.getItems());
+            else
+                player.dropItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
+        }
+    }
     
+    
+
     //goBack method (Thu Ky Vu Hoang)
-    /**
-     * logic of the command back
-     */
     private void goBack(){
         if(parser.getCommand().hasSecondWord()) {
             System.out.println("What ?");
@@ -337,46 +345,6 @@ public class Game
         }
     }
 
-    
-    /*
-     * Print out iformation of the player and its environment/back.
-     */
-    private void bag() {
-        System.out.println(player.getDetails());
-    }
-
-    /**
-     * logic of the command take and the second word
-     */
-    private void take() {
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word...
-            System.out.println("What item?");
-            return;
-        }
-        else {
-            /*
-            if(parser.getCommand().getSecondWord().toLowerCase().equals("all"))
-                player.takeAllItems(currentRoom.getItems());
-            else */
-                player.takeItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
-        }
-    }
-    
-        private void drop() {
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word...
-            System.out.println("What item?");
-            return;
-        }
-        else {
-            if(parser.getCommand().getSecondWord().equals("all"))
-                player.dropAllItems(currentRoom.getItems());
-            else
-                player.dropItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
-        }
-    }
-    
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
