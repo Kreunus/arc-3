@@ -2,7 +2,7 @@
  * Write a description of class Item here.
  *
  * @author Thu Ky Vu Hoang
- * @version (a version number or a date)
+ * @version 2018.01.21
  */
 public class Item
 {
