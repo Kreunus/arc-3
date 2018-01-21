@@ -13,15 +13,15 @@ import java.util.Stack;
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * @author  Michael Kolling and David J. Barnes
+ * @author  Michael Kolling, David J. Barnes, Aaron Winter, Sebastian Pütz, Thu Ky Vu Hoang
  * @version 2008.03.30
  */
 
 public class Game 
 {
+    private Actor player;
     private Parser parser;
     private Room currentRoom;
-    private Actor player;
 
     //saves the current room before going to the next (Thu Ky Vu Hoang)
     private Stack<Room> previousRooms;
@@ -192,20 +192,22 @@ public class Game
         }
 
         switch(parser.getCommandWord()) {
-            case HELP: printHelp(); break;
-            case GO: goRoom(); break;
-            case LOOK: look(); break;
-            case SEARCH: search(); break;
-            case BAG: bag(); break;
-            case EAT: eat(); break;
-            case ASK: ask(); break;
+            
+            //alphabetical order
             case ALICE: alice(); break;
-            case TAKE: take(); break;
-            case DROP: drop(); break;
+            case ASK: ask(); break;
             case BACK: goBack(); break;
+            case BAG: bag(); break;   
+            case DROP: drop(); break;
+            case EAT: eat(); break; 
+            case GO: goRoom(); break;
+            case HELP: printHelp(); break;
+            case LOOK: look(); break;
             case QUIT: wantToQuit = quit(); break;
+            case SEARCH: search(); break;
+            case TAKE: take(); break;
+                       
         }
-
         return wantToQuit;
     }
 
@@ -224,7 +226,10 @@ public class Game
         System.out.println("Your command words are:");
         System.out.println(parser.getCommandWords());
     }
-
+    
+    /**
+     * Method that is used to pringt out the current location of.
+     */
     private void printLocation() {
         System.out.println("You are " + currentRoom.getDescription());
         System.out.println(currentRoom.getLongDescription());
@@ -277,7 +282,10 @@ public class Game
         }
 
     }
-
+    
+    /**
+     * A method that manages the logic of the command eat and the second word
+     */
     private void eat() {
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
@@ -310,7 +318,36 @@ public class Game
             System.out.println("ALICE: I'm afraid I can't help you with that.");
         }
     }
+    
+    //goBack method (Thu Ky Vu Hoang)
+    /**
+     * logic of the command back
+     */
+    private void goBack(){
+        if(parser.getCommand().hasSecondWord()) {
+            System.out.println("What ?");
+            return;
+        }
+        if (previousRooms.empty()){
+            System.out.println("You can't go back !");
+        }
+        else{
+            currentRoom = previousRooms.pop();
+            printLocation();
+        }
+    }
 
+    
+    /*
+     * Print out iformation of the player and its environment/back.
+     */
+    private void bag() {
+        System.out.println(player.getDetails());
+    }
+
+    /**
+     * logic of the command take and the second word
+     */
     private void take() {
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word...
@@ -326,11 +363,7 @@ public class Game
         }
     }
     
-    private void bag() {
-        System.out.println(player.getDetails());
-    }
-    
-    private void drop() {
+        private void drop() {
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word...
             System.out.println("What item?");
@@ -343,22 +376,7 @@ public class Game
                 player.dropItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
         }
     }
-
-    //goBack method (Thu Ky Vu Hoang)
-    private void goBack(){
-        if(parser.getCommand().hasSecondWord()) {
-            System.out.println("What ?");
-            return;
-        }
-        if (previousRooms.empty()){
-            System.out.println("You can't go back !");
-        }
-        else{
-            currentRoom = previousRooms.pop();
-            printLocation();
-        }
-    }
-
+    
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
