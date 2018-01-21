@@ -104,7 +104,9 @@ public class Game
         livingRoom2.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
         livingRoom3.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
         livingRoom4.createItem("Normal Clothes", "Normal Clothes no effect", 2000);
-
+           
+        livingRoom3.createNpc("Aaron", "Winter", "Hallo, wie gehts?");
+        
         //sets exits for rooms
         navigationRoom.setExit(computationRoom);
         computationRoom.setExit(navigationRoom);
@@ -184,7 +186,7 @@ public class Game
     {
         boolean wantToQuit = false;
 
-        if(parser.getCommand().isUnknown()) {
+        if(parser.getNewCommand().isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
         }
@@ -195,6 +197,7 @@ public class Game
             case LOOK: look(); break;
             case SEARCH: search(); break;
             case EAT: eat(); break;
+            case ASK: ask(); break;
             case ALICE: alice(); break;
             case TAKE: take(); break;
             case DROP: drop(); break;
@@ -223,6 +226,8 @@ public class Game
 
     private void printLocation() {
         System.out.println("You are " + currentRoom.getDescription());
+        System.out.println("Characters:");
+        System.out.println(currentRoom.printCharacters());
         //call the printItem method (Thu Ky Vu Hoang)
         System.out.println("Items: ");
         System.out.print(currentRoom.printItem());
@@ -287,7 +292,18 @@ public class Game
             System.out.println("You cannot eat that ...");
         }
     }
-
+    
+    private void ask() {
+        if(!parser.getCommand().hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Ask who?");
+            return;
+        }
+        else {
+            System.out.println(currentRoom.getResponseFromCharacter(parser.getCommand().getSecondWord()));
+        }
+    }
+    
     private void alice() {
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...

@@ -22,4 +22,9 @@ public class Character
         lastName = lName;
         this.response = response;
     }
+    
+    public String getResponse() { return response; }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getName() { return firstName + " " + lastName; }
 }

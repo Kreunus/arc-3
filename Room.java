@@ -33,6 +33,7 @@ public class Room
     public Room(String name, String id, String description) 
     {
         exits = new HashMap<>();
+        npcs = new HashMap<>();
         //added ArrayList (Thu Ky Vu Hoang)
         items = new HashMap<>();
         this.name = name;
@@ -64,6 +65,12 @@ public class Room
         npcs.put(fName, c);
     }
     
+    public String getResponseFromCharacter(String name) {
+        if(npcs.get(name) == null)
+            return "There is no " + name;
+        return name + ": \"" + npcs.get(name).getResponse() + "\"";
+    }
+    
     public void addItem(Item item) {
         items.put(item.getName(), item);
     } 
@@ -79,6 +86,14 @@ public class Room
            allItems += item.getName() + ": " + item.getItemDescription() + "\n";
         }
         return allItems;
+    }
+    
+    public String printCharacters() {
+        String s = "";
+        for (Character c : npcs.values()) {
+            s += c.getName();
+        }
+        return s;
     }
     
     public Item getItem(String itemName) {

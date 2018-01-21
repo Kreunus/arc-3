@@ -14,6 +14,7 @@ public enum CommandWord
     TAKE("take"),
     DROP("drop"),
     ALICE("alice"),
+    ASK("ask"),
     //added back (Thu Ky Vu Hoang)
     BACK("back"),
     HELP("help");
