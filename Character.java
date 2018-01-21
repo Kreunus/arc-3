@@ -8,7 +8,7 @@
 public class Character
 {
     // instance variables - replace the example below with your own
-    String firstName, lastName, response;
+    private String firstName, lastName, response;
 
     /**
      * Constructor for objects of class Character
