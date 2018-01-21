@@ -1,7 +1,7 @@
 /**
  * Write a description of class Item here.
- *
- * @author Thu Ky Vu Hoang
+ * 
+ * @author Thu Ky Vu Hoang, Sebastian Pütz
  * @version 2018.01.21
  */
 public class Item
@@ -23,20 +23,22 @@ public class Item
     }
 
     /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+     * @return name of an item.
      */
-    
     public String getName(){
         return name;
     }
     
+    /**
+     * @return description of an item.
+     */
     public String getItemDescription(){
         return description;
     }
-
+    
+    /**
+     * @return weight of an item.
+     */
     public int getWeight(){
         return weight;
     }

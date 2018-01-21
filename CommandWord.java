@@ -1,8 +1,8 @@
 /**
  * Enumeration class CommandWord - write a description of the enum class here
  *
- * @author (your name here)
- * @version (version number or date here)
+ * @author Aaron Winter, Sebastian Pütz
+ * @version v1
  */
 public enum CommandWord
 {
@@ -25,6 +25,9 @@ public enum CommandWord
         this.commandWord = commandWord; 
     }
     
+    /**
+     * @return object of commandWord
+     */
     public String getCommandWord() {
         return commandWord;
     }
@@ -56,6 +59,9 @@ public enum CommandWord
         return null;
     }
     
+    /**
+     * @return String s that lists all commands.
+     */
     public static String getCommandWords() {
         String s = "\t";
         for (CommandWord command : CommandWord.values()) {
