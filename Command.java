@@ -19,8 +19,7 @@
 
 public class Command
 {
-    private String commandWord;
-    private String secondWord;
+    private String commandWord, secondWord;
 
     /**
      * Create a command object. First and second word must be supplied, but
