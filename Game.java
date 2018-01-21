@@ -25,6 +25,7 @@ public class Game
 
     //saves the current room before going to the next (Thu Ky Vu Hoang)
     private Stack<Room> previousRooms;
+    
     /**
      * Create the game and initialise its internal map.
      */
@@ -342,7 +343,6 @@ public class Game
             currentRoom = previousRooms.pop();
             printLocation();
         }
-
     }
 
     /** 
