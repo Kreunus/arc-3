@@ -15,11 +15,11 @@ public enum CommandWord
     DROP("drop"),
     EAT("eat"),
     GO("go"),
-    HELP("help");
+    HELP("help"),
     LOOK("look"),
     QUIT("quit"),
     SEARCH("search"),
-    TAKE("take"),
+    TAKE("take");
 
     
     private String commandWord;
