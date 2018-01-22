@@ -23,6 +23,10 @@ public class Slot {
         number++;
     }
     
+    public void add(int n) {
+        number += n;
+    }
+    
     public void remove() {
         number--;
     }

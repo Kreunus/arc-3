@@ -29,9 +29,19 @@ public class Inventory
     public Slot slot(String id) {
         return slots.get(id);
     }
+    
     public void add(int count,String name,String description,int weight,boolean eatable,int calories,boolean pickable) {
         add(count, new Slot(new Item(name, description, weight, eatable, calories, pickable)));
     }
+    
+    public void add(Slot slot) {
+        if(slots.get(slot.item().getName()) != null) {
+            slots.get(slot.item().getName()).add();
+        } else {
+            slots.put(slot.item().getName(), slot);
+        }
+    }
+    
     public void add(Item item) {
         if(slots.get(item.getName()) != null) {
             slots.get(item.getName()).add();
@@ -41,11 +51,8 @@ public class Inventory
     }
     
     public void add(int count, Slot slot) {
-        if(slots.get(slot.item().getName()) != null) {
-            slots.get(slot.item().getName()).add();
-        } else {
-            slots.put(slot.item().getName(), slot);
-        }
+        for (int i = 0; i < count; i++)
+            add(slot);
     }
     
     public void remove(String itemName) {
