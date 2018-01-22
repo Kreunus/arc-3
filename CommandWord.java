@@ -7,7 +7,10 @@
 public enum CommandWord
 {
     //aphabetical order
-
+    LOOK("look"),
+    QUIT("quit"),
+    SEARCH("search"),
+    TAKE("take"),
     ALICE("alice"),
     ASK("ask"),
     BACK("back"), //by Thu Ky Vu Hoang
@@ -15,12 +18,7 @@ public enum CommandWord
     DROP("drop"),
     EAT("eat"),
     GO("go"),
-    HELP("help"),
-    LOOK("look"),
-    QUIT("quit"),
-    SEARCH("search"),
-    TAKE("take");
-
+    HELP("help");
     
     private String commandWord;
     

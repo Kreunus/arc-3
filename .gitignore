@@ -1,1 +1,4 @@
 bluej.pkg
+*.class
+*.ctxt
+*.defs
