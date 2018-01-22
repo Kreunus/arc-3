@@ -134,7 +134,7 @@ public class Room
      * Mehtod that creates a new NPC in a room.
      * @param fName, lName, respone
      */ 
-    public void newNpc(String fName, String lName, String response) {
+    public void addNpc(String fName, String lName, String response) {
         Character c = new Character(fName, lName, response);
         npcs.put(fName, c);
     }
