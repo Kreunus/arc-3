@@ -21,7 +21,7 @@ public class Character
     }
     
     /**
-     * return the reposnse of a npc
+     * @return the reposnse of a npc
      */
     public String getResponse() { return response; }
     

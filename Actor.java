@@ -70,6 +70,7 @@ public class Actor
 
     /**
      * logic of eating an item from the inventory
+     * @param itemName the name of the item which should be eaten
      */
     public void eatItem(String itemName) {
         if (inventory.get(itemName) != null) {
