@@ -376,12 +376,8 @@ public class Game
             return;
         }
         else {
-            /*
-            if(parser.getCommand().getSecondWord().toLowerCase().equals("all"))
-                player.takeAllItems(currentRoom.getItems());
-            else */
-                step(5);
-                player.takeItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
+            step(5);
+            player.takeItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
         }
     }
     
@@ -393,11 +389,15 @@ public class Game
             return;
         }
         else {
-            /*if(parser.getCommand().getSecondWord().equals("all"))
+            if (parser.getCommand().getSecondWord().equals("all")) {
                 player.dropAllItems(currentRoom.getItems());
-            else */
+                step(10);
+            } 
+            else 
+            {
                 step(5);
                 player.dropItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
+            }
         }
     }
     

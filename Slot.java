@@ -1,7 +1,8 @@
 public class Slot {
-    private Item item;
+    private Item item = new Item();
     private int number;
-
+    
+    
     Slot(Item item) {
         this.item = item;
         number = 1;

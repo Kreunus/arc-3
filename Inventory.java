@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 /**
  * Write a description of class Inventory here.
  *
@@ -19,11 +20,27 @@ public class Inventory
     }
 
     public Item item(String id) {
-        return slots.get(id).item();
+        if (slots.get(id) != null)
+            return slots.get(id).item();
+        else
+            return null;
+    }
+    
+    public ArrayList<Item> items() {
+        ArrayList<Item> items = new ArrayList<>();
+        
+        for (Slot slot : slots.values()) {
+            items.add(slot.item());
+        }
+        return items;
     }
     
     public int number(String id) {
         return slots.get(id).number();
+    }
+    
+    public HashMap<String, Slot> slots() {
+        return slots;
     }
     
     public Slot slot(String id) {

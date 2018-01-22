@@ -15,7 +15,9 @@ public class Item
     
     private boolean pickable;
     private boolean eatable;
-
+    
+    public Item() {}
+    
     /**
      * Default Constructor for objects of class Item
      */

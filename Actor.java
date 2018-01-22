@@ -115,21 +115,20 @@ public class Actor
             System.out.println(itemName + " is not in your inventory. Note upper and lower case writing");
         }
     }
-
-    // Not working yet
-    /**
-     * logic of taking all items from a room and adding them to the inventory
-     */   
-    public void takeAllItems(Inventory roomItems)
-    {
-    }
-
-    // Not working yet
+    
     /**
      * logic of droping all items from the invetory and adding them to a room
      */
     public void dropAllItems(Inventory roomItems)
     {
+        for (Slot slot : inventory.slots().values()) {
+            for(slot.number() ; slot.number() > 0; slot.remove()) {
+                roomItems.add(slot.item());
+                weight -= slot.item().getWeight();
+                System.out.println("You dropped " + slot.item().getName());
+            }
+        }
+        inventory.slots().clear();
     }
 
     /**
