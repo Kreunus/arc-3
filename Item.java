@@ -67,6 +67,13 @@ public class Item
     }
     
     /**
+     * @return calories of an item.
+     */
+    public int getCalories() {
+        return calories;
+    }
+
+    /**
      * @return that an item eaten by the actor
      */
     public boolean isEatable() { return eatable; }

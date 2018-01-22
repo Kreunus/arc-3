@@ -137,6 +137,9 @@ public class Actor
         if (inventory.item(itemName) != null) {
             if(inventory.item(itemName).isEatable()) {
                 weight -= inventory.item(itemName).getWeight();
+                calories += inventory.item(itemName).getCalories();
+                if(calories > CALORIES_MAX)
+                    calories = CALORIES_MAX;
                 inventory.remove(itemName);        
                 System.out.println("You ate " + itemName);
             }
