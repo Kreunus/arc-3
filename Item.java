@@ -46,13 +46,6 @@ public class Item
     }
     
     /**
-     *return the details of an item
-     */
-    public String getDetails() {
-        return name + "(" + weight + "): " + description;
-    }
-    
-    /**
      * @return name of an item.
      */
     public String getName() {

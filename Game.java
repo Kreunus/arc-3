@@ -92,28 +92,15 @@ public class Game
         Room hall4 = new Room("sector 5", "sec5", "in the cryo chamber unit.");
         Room hall5 = new Room("hall (sector 6)", "sec6", "in the animal and plant unit.");
         
-        // FRUITS
-        Item banana = new Item("Banana", "It's a banana. Bananas are cool!", 100, true, 200);
-        Item orange = new Item("Orange", "So orange...", 100, true, 200);
-        Item apple = new Item("Apple", "An apple a day, keeps the doctor away!", 100, true, 200);
-        Item cookie = new Item("Cookie", "Increases maximum weight", 50, true, 200);
-        
-        // OTHER STUFF
-        Item recycler = new Item("Recycler", "A big Mashine for recycling stuff", 500000);
-        Item tool = new Item("Tool", "A Tool", 100);
-        Item clothes = new Item("Clothes", "Normal Clothes no effect", 2000);
-        
-        laboratory.addItem(cookie);
-        laboratory.addItem(banana);
-        laboratory.addItem(banana);
-        laboratory.addItem(banana);
-        laboratory.addItem(tool);
-        laboratory.addItem(recycler);
+        laboratory.addItem(1, "cookie", "Increases maximum weight", 50, true, 200, true);
+        laboratory.addItem(5, "banana", "It's a banana. Bananas are cool!", 100, true, 200, true);
+        laboratory.addItem(1, "tool", "A Tool", 100, true);
+        laboratory.addItem(1, "recycler", "A big Mashine for recycling stuff", 500000, true);
 
-        livingRoom1.addItem(banana);
-        livingRoom2.addItem(clothes);
-        livingRoom3.addItem(orange);
-        livingRoom4.addItem(clothes);
+        livingRoom1.addItem(2, "banana", "It's a banana. Bananas are cool!", 100, true, 200, true);
+        livingRoom2.addItem(2, "clothes", "Normal Clothes no effect", 2000, true);
+        livingRoom3.addItem(3, "orange", "So orange...", 100, true, 200, true);
+        livingRoom4.addItem(1, "clothes", "Normal Clothes no effect", 2000, true);
 
         livingRoom3.newNpc("Oprah", "Winfrey", "Hey " + player.getFirstName() + ", how are you?");
         captainCell.newNpc("Noah", "Windbreaker", "What are you doing in my office!");
