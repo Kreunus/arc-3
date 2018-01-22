@@ -20,9 +20,10 @@ public class Room
     private String name, id, description;
     //added private to HashMap and added ArrayList (Thu Ky Vu Hoang)
     private HashMap <String, Room> exits;
-    private HashMap<String, Item> items;
     private HashMap<String, Character> npcs;
-
+    
+    private Inventory items;
+    
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -34,7 +35,7 @@ public class Room
         exits = new HashMap<>();
         npcs = new HashMap<>();
         //added ArrayList (Thu Ky Vu Hoang)
-        items = new HashMap<>();
+        items = new Inventory();
         this.name = name;
         this.id = id;
         this.description = description;
@@ -48,7 +49,7 @@ public class Room
     public void setExit(Room room) {
         exits.put(room.getId(), room);
     }
-    
+
     /**
      * @param name
      * @retung the collection of exits
@@ -56,7 +57,7 @@ public class Room
     public Room getExit(String name) {
         return exits.get(name);
     }
-    
+
     /**
      * @return The description of the room.
      */
@@ -77,7 +78,7 @@ public class Room
     public String getId() {
         return id;
     }
-    
+
     /**
      * @return a String with all exits of a room.
      */
@@ -88,35 +89,35 @@ public class Room
         }
         return s;
     }
-    
+
     /**
      * Adds an Item to the Room
      * @param item an Item that gets added to the room
      */
-    public void addItem(Item item) {
-        items.put(item.getName(), item);
+    public void addItem(int count, String name, String description, int weight,boolean pickable, int calories, boolean eatable) {
+        items.add(count, name, description, weight, eatable, calories, pickable);
     }
     
+    public void addItem(int count, String name, String description, int weight, boolean pickable) {
+        items.add(count, name, description, weight, false, 0, pickable);
+    }
+
     /**
      * A method that removes a item from its collection of a room.
      * @param item
      */
-    public void removeItem(String name) {
-        items.remove(name);
+    public void removeItem(String itemName) {
+        items.remove(itemName);
     }
-    
+
     /**
      * @return a String that includes all available items in a room.
      * @author Thu Ky Vu Hoang
      */
     public String getItemStrings(){
-        String s = "Items:";
-        for(Item item: items.values()){
-            s += "\n" + item.getDetails();
-        }
-        return s;
+        return items.details();
     }
-    
+
     /**
      * @return Returns a detailed description of the room and it's content
      */
@@ -125,18 +126,10 @@ public class Room
     }
 
     /**
-     * @param itemName
-     * @return values of an item by the key itemName
-     */
-    public Item getItem(String itemName) {
-        return items.get(itemName);
-    }
-
-    /**
      * @return a collection of items
      */
-    public HashMap<String, Item> getItems() { return items; }
-    
+    public Inventory getItems() { return items; }
+
     /**
      * Mehtod that creates a new NPC in a room.
      * @param fName, lName, respone
@@ -145,7 +138,7 @@ public class Room
         Character c = new Character(fName, lName, response);
         npcs.put(fName, c);
     }
-    
+
     /**
      * @param name The name of the Character that should respond
      * @return a String thats includes all reponses from NPCs.
