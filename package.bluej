@@ -100,10 +100,6 @@ target1.name=Item
 target1.showInterface=false
 target1.type=ClassTarget
 target1.width=80
-<<<<<<< HEAD
-target1.x=270
-target1.y=400
-=======
 target1.x=400
 target1.y=470
 target10.height=50
@@ -120,7 +116,6 @@ target11.type=ClassTarget
 target11.width=80
 target11.x=80
 target11.y=160
->>>>>>> master
 target2.height=50
 target2.name=Game
 target2.showInterface=false
