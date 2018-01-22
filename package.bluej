@@ -2,13 +2,6 @@
 dependency1.from=Parser
 dependency1.to=Command
 dependency1.type=UsesDependency
-<<<<<<< HEAD
-dependency10.from=Parser
-dependency10.to=CommandWord
-dependency10.type=UsesDependency
-dependency2.from=Game
-dependency2.to=Parser
-=======
 dependency10.from=Slot
 dependency10.to=Item
 dependency10.type=UsesDependency
@@ -20,24 +13,10 @@ dependency12.to=Item
 dependency12.type=UsesDependency
 dependency2.from=Parser
 dependency2.to=CommandWord
->>>>>>> master
 dependency2.type=UsesDependency
 dependency3.from=Main
 dependency3.to=Game
 dependency3.type=UsesDependency
-<<<<<<< HEAD
-dependency4.from=Game
-dependency4.to=Item
-dependency4.type=UsesDependency
-dependency5.from=Actor
-dependency5.to=Item
-dependency5.type=UsesDependency
-dependency6.from=Main
-dependency6.to=Game
-dependency6.type=UsesDependency
-dependency7.from=Room
-dependency7.to=Item
-=======
 dependency4.from=Actor
 dependency4.to=Inventory
 dependency4.type=UsesDependency
@@ -49,26 +28,16 @@ dependency6.to=Parser
 dependency6.type=UsesDependency
 dependency7.from=Game
 dependency7.to=Room
->>>>>>> master
 dependency7.type=UsesDependency
 dependency8.from=Room
 dependency8.to=Character
 dependency8.type=UsesDependency
-<<<<<<< HEAD
-dependency9.from=Parser
-dependency9.to=Command
-dependency9.type=UsesDependency
-editor.fx.0.height=0
-editor.fx.0.width=0
-editor.fx.0.x=0
-=======
 dependency9.from=Room
 dependency9.to=Inventory
 dependency9.type=UsesDependency
 editor.fx.0.height=1087
 editor.fx.0.width=974
 editor.fx.0.x=953
->>>>>>> master
 editor.fx.0.y=0
 objectbench.height=187
 objectbench.width=556
@@ -80,13 +49,8 @@ package.editor.x=100
 package.editor.y=100
 package.frame.height=1087
 package.frame.width=974
-<<<<<<< HEAD
-package.numDependencies=10
-package.numTargets=9
-=======
 package.numDependencies=12
 package.numTargets=11
->>>>>>> master
 package.showExtends=true
 package.showUses=true
 project.charset=windows-1252
@@ -128,13 +92,8 @@ target3.name=Character
 target3.showInterface=false
 target3.type=ClassTarget
 target3.width=80
-<<<<<<< HEAD
-target3.x=270
-target3.y=340
-=======
 target3.x=310
 target3.y=300
->>>>>>> master
 target4.height=50
 target4.name=Command
 target4.showInterface=false
@@ -168,11 +127,7 @@ target8.name=Main
 target8.showInterface=false
 target8.type=ClassTarget
 target8.width=80
-<<<<<<< HEAD
-target8.x=200
-=======
 target8.x=80
->>>>>>> master
 target8.y=280
 target9.height=50
 target9.name=Room
