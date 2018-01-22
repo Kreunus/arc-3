@@ -9,7 +9,6 @@ public enum CommandWord
     //aphabetical order
     LOOK("look"),
     QUIT("quit"),
-    SEARCH("search"),
     TAKE("take"),
     ALICE("alice"),
     ASK("ask"),

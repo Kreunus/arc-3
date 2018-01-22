@@ -200,7 +200,6 @@ public class Game
             case HELP: printHelp(); break;
             case LOOK: look(); break;
             case QUIT: wantToQuit = quit(); break;
-            case SEARCH: search(); break;
             case TAKE: take(); break;
                        
         }
@@ -262,26 +261,19 @@ public class Game
     }
     
     private void step() {
-        wantToQuit = player.step();
+        wantToQuit = player.step(10);
+    }
+    
+    private void step(int calories) {
+        wantToQuit = player.step(calories);
     }
     
     /**
      * The player looks around. For now nothing happens...
      */
     private void look() {
+        step(2);
         printLocation();
-    }
-
-    private void search() {
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Search what?");
-            return;
-        }
-        else {
-            System.out.println("You cannot search that now...");
-        }
-
     }
     
     /**
@@ -299,6 +291,7 @@ public class Game
     }
 
     private void ask() {
+        step(5);
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Ask who?");
@@ -310,6 +303,7 @@ public class Game
     }
 
     private void alice() {
+        step(5);
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("ALICE: How can I help you?");
@@ -333,6 +327,7 @@ public class Game
             System.out.println("You can't go back !");
         }
         else{
+            step();
             currentRoom = previousRooms.pop();
             printLocation();
         }
@@ -343,6 +338,7 @@ public class Game
      * Print out iformation of the player and its environment/back.
      */
     private void bag() {
+        step(5);
         System.out.println(player.getDetails());
     }
 
@@ -353,6 +349,7 @@ public class Game
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word...
             System.out.println("What item?");
+            step(2);
             return;
         }
         else {
@@ -360,6 +357,7 @@ public class Game
             if(parser.getCommand().getSecondWord().toLowerCase().equals("all"))
                 player.takeAllItems(currentRoom.getItems());
             else */
+                step(5);
                 player.takeItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
         }
     }
@@ -368,12 +366,14 @@ public class Game
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word...
             System.out.println("What item?");
+            step(2);
             return;
         }
         else {
-            if(parser.getCommand().getSecondWord().equals("all"))
+            /*if(parser.getCommand().getSecondWord().equals("all"))
                 player.dropAllItems(currentRoom.getItems());
-            else
+            else */
+                step(5);
                 player.dropItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
         }
     }

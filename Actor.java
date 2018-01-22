@@ -35,8 +35,11 @@ public class Actor
         this.inventory = new Inventory();
     }
     
-    public boolean step() {
-        calories -= 10;
+    public boolean step(int cals) {
+        if (calories < 0)
+            return false;
+        
+        calories -= cals;
         
         if (calories <= 0) {
             System.out.println("You starved! Game Over!");
