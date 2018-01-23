@@ -62,7 +62,7 @@ public class Game
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        //initialize rooms
+        // Creating characters
         Actor kelly = new Actor("Kelly", "Smith", "These old computers are killing me.");
         npcs.add(kelly);
         Actor oprah = new Actor("Oprah", "Dontos", "Hey " + player.getFirstName() + ", how are you?");
@@ -70,6 +70,7 @@ public class Game
         Actor noah = new Actor("Noah", "Windbreaker", "What are you doing in my office!");
         npcs.add(noah);
         
+        // Creating rooms and adding items/characters to it
         Room navigationRoom = new Room("navigation room", "nav", "in the navigation room.");
         
         Room computationRoom = new Room("computing room", "com", "in the computing room.");
@@ -83,9 +84,7 @@ public class Game
         
         Room armory = new Room("armory", "arm", "in the armory.");
         
-        
         Room meetingRoom = new Room("meeting room", "meet", "in the meeting room.");
-        
         
         Room captainCell = new Room("Captain Cell", "cc", "in the room of the captain.");
 
@@ -111,7 +110,7 @@ public class Game
         livingRoom2.addItem(2, "clothes", "Normal Clothes no effect", 2000, true, 0, false);
         
         Room livingRoom3 = new Room("living cell 3", "cell3", "in the living cell 3.");
-        livingRoom3.addNpc(oprah);
+        livingRoom2.addNpc(oprah);
         livingRoom3.addItem(3, "orange", "So orange...", 100, true, 200, true);
         
         Room livingRoom4 = new Room("living cell 4", "cell4", "in the living cell 4.");

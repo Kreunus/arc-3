@@ -53,9 +53,8 @@ public class Actor
         int number = rand.nextInt(exits.size());
         Object[] exitRooms = exits.values().toArray();
         Room exitRoom = (Room) exitRooms[number];
-        exitRoom.addNpc(this);
         currentRoom.removeNpc(firstName);
-        currentRoom = exitRoom ;
+        exitRoom.addNpc(this);
         System.out.println("[DEBUG]: "+ firstName + " moved to " + currentRoom.getName());
     }
 }
