@@ -13,7 +13,7 @@ public class Player extends Actor
     private int weight;
     private int calories;
     
-    private HashMap<String, Slot> inventory;
+    private Inventory inventory;
     
     /**
      * Constructor for objects of class Player
@@ -24,7 +24,7 @@ public class Player extends Actor
         this.weight = 0;
         this.calories = CALORIES_MAX;
         
-        this.inventory = new HashMap();
+        this.inventory = new Inventory();
     }
     
     public boolean step() {
@@ -54,58 +54,79 @@ public class Player extends Actor
      */
     public String getItemStrings(){
         String s = "Items:";
-        for (Slot slot : inventory.values()) {
+        for (Slot slot : inventory.slots().values()) {
         s += "\n" + slot.details();
         }
         return s;
     }
-
-    /**
-     * logic of taking an item from a room and adding it to the inventory
-     */
-    public void takeItem(String itemName, HashMap<String, Slot> roomItems) {
-        if (roomItems.get(itemName) != null) {
-            if ((weight + roomItems.get(itemName).item().getWeight()) <= WEIGHT_MAX) {
-                weight += (roomItems.get(itemName).item().getWeight());
-                inventory.put(itemName, roomItems.get(itemName));
-                roomItems.remove(itemName);
-                System.out.println("You took " + itemName);
-            } else {
-                System.out.println("It's too heavy!");
-            }
-        } else {
-            System.out.println("There is no such item. Note upper and lower case writing");
-        }
-    }
-
+    
     /**
      * logic of droping an item from the invetory and adding it to a room
      */
-    public void dropItem(String itemName, HashMap<String, Slot> roomItems) {
-        if (inventory.get(itemName) != null) {
-            weight -= inventory.get(itemName).item().getWeight();
-            inventory.remove(itemName);
-            roomItems.put(itemName, inventory.get(itemName));
-            System.out.println("You dropped " + itemName);
+    public void dropItem(String itemName) {
+        Inventory roomItems = currentRoom.getItems();
+        if (inventory.get(itemName) == null) {
+            System.out.println("There is no such item!");
         }
         else {
-            System.out.println(itemName + " is not in your inventory. Note upper and lower case writing");
+            weight -= (inventory.get(itemName).item().getWeight());
+            roomItems.add(inventory.get(itemName));                
+            inventory.remove(itemName);
+        }
+    }
+    
+    /**
+     * logic of taking an item from the current room and adding it to the inventory
+     */
+    public void takeItem(String itemName) {
+        Inventory roomItems = currentRoom.getItems();
+        if (roomItems.get(itemName) == null) {
+            System.out.println("There is no such item!");
+        }
+        else if ((weight + roomItems.get(itemName).item().getWeight()) >= WEIGHT_MAX) {
+            System.out.println("It's too heavy!");
+        }
+        else {
+            weight += (roomItems.get(itemName).item().getWeight());
+            inventory.add(roomItems.get(itemName));                
+            roomItems.remove(itemName);
         }
     }
     
     /**
      * logic of droping all items from the invetory and adding them to a room
      */
-    public void dropAllItems(HashMap<String, Slot> roomItems)
+    public void dropAllItems()
     {
-        for (Slot slot : inventory.values()) {
-            for(slot.number() ; slot.number() > 0; slot.remove()) {
-                roomItems.put(slot.item().getName(), slot);
-                weight -= slot.item().getWeight();
-                System.out.println("You dropped " + slot.item().getName());
+        Inventory roomItems = currentRoom.getItems();
+        roomItems.addAll(inventory.slots());
+        inventory.slots().clear();
+        weight = 0;
+        System.out.println("You dropped all Items");
+    }
+    
+    /**
+     * logic of taking all items from the room and adding them to the inventory
+     */
+    public void takeAllItems()
+    {
+        Inventory roomItems = currentRoom.getItems();
+        Inventory itemsToAdd = new Inventory();
+        
+        for (String itemName : roomItems.slots().keySet()) {
+            if ((weight + roomItems.get(itemName).weight()) > WEIGHT_MAX ) {
+                System.out.println(itemName + " is too heavy to pick up");
+            }
+            else {
+                weight += roomItems.get(itemName).weight();
+                itemsToAdd.add(roomItems.get(itemName));
+                System.out.println("You took " + roomItems.get(itemName).number() + "x " + itemName);
             }
         }
-        inventory.clear();
+        inventory.addAll(itemsToAdd.slots());
+        for (String itemName : itemsToAdd.slots().keySet()) {
+            roomItems.removeSlot(itemName);
+        }
     }
 
     /**
@@ -113,25 +134,25 @@ public class Player extends Actor
      * @param itemName the name of the item which should be eaten
      */
     public void eatItem(String itemName) {
-        if (inventory.get(itemName) != null) {
-            if(inventory.get(itemName).item().isEatable()) {
+        if (inventory.get(itemName) == null) {
+            System.out.println("There is no such item in your inventory");
+        }
+        else {
+            if(!inventory.get(itemName).item().isEatable()) {
+                System.out.println("You can't eat " + itemName);
+            }
+            else {
                 weight -= inventory.get(itemName).item().getWeight();
                 calories += inventory.get(itemName).item().getCalories();
                 if(calories > CALORIES_MAX)
                     calories = CALORIES_MAX;
                 inventory.remove(itemName);        
                 System.out.println("You ate " + itemName);
+                if (itemName.toLowerCase().equals("cookie")) {
+                    WEIGHT_MAX += 1000;
+                    System.out.println("Your max weight increased by 1000!");
+                }
             }
-            else {
-                System.out.println("You can't eat " + itemName);
-            }
-            if (itemName.toLowerCase().equals("cookie")) {
-                WEIGHT_MAX += 1000;
-                System.out.println("Your max weight increased by 1000!");
-            }
-        }
-        else {
-            System.out.println("There is no such item in your inventory");
         }
     }
 }

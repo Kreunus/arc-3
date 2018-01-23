@@ -59,6 +59,237 @@ public class Game
     }
 
     /**
+     * Given a command, process (that is: execute) the command.
+     * @return true If the command ends the game, false otherwise.
+     */
+    private boolean processCommand() 
+    {
+        if(parser.getNewCommand().isUnknown()) {
+            System.out.println("I don't know what you mean...");
+            return false;
+        }
+
+        switch(parser.getCommandWord()) {
+            case ALICE: alice(); break;
+            case ASK: ask(); break;
+            case BACK: goBack(); break;   
+            case DROP: drop(); break;
+            case EAT: eat(); break; 
+            case GO: goRoom(); break;
+            case LOOK: look(); break;
+            case HELP: printHelp(); break;
+            case QUIT: wantToQuit = quit(); break;
+            case STATS: stats(); break;
+            case TAKE: take(); break;  
+        }
+        return wantToQuit;
+    }
+    
+    /** 
+     * Try to go to one direction. If there is an exit, enter
+     * the new room, otherwise print an error message.
+     */
+    private void goRoom() 
+    {   
+        if(!parser.getCommand().hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Go where?");
+            return;
+        }
+
+        String direction = parser.getCommand().getSecondWord();
+
+        // Try to leave current room.
+        Room nextRoom = player.getCurrentRoom().getExit(direction);
+
+        if (nextRoom == null) {
+            System.out.println("There is no door!");
+        }
+        else {
+            // if the nextRoom does not have the currentRoom as Exit, the prevRooms get cleared so there is no going back
+            if (!nextRoom.hasExit(player.getCurrentRoom().getId())) {
+                previousRooms.clear();
+                System.out.println("You used a trap door. You can't go back to " + player.getCurrentRoom().getName());
+            }
+            else {
+                previousRooms.push(player.getCurrentRoom());
+            }
+            player.setCurrentRoom(nextRoom);
+            step();
+            printLocation();
+        }
+    }
+    
+    private void step() {
+        for (Actor actor : npcs) {
+            actor.moveToRandomExit();
+        }
+        wantToQuit = player.step();
+    }
+    
+    /**
+     * The player looks around. For now nothing happens...
+     */
+    private void look() {
+        printLocation();
+    }
+    
+    /**
+     * A method that manages the logic of the command eat and the second word
+     */
+    private void eat() {
+        if(!parser.getCommand().hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Eat what?");
+            return;
+        }
+        else {
+            player.eatItem(parser.getCommand().getSecondWord());
+        }
+    }
+    
+    private void ask() {
+        if(!parser.getCommand().hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Ask who?");
+            return;
+        }
+        else {
+            System.out.println(player.getCurrentRoom().getResponseFromCharacter(parser.getCommand().getSecondWord()));
+        }
+    }
+
+    private void alice() {
+        if(!parser.getCommand().hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("ALICE: How can I help you?");
+            return;
+        }
+        else {
+            System.out.println("ALICE: I'm afraid I can't help you with that.");
+        }
+    }
+    
+    //goBack method (Thu Ky Vu Hoang)
+    /**
+     * logic of the command back
+     */
+    private void goBack(){
+        if(parser.getCommand().hasSecondWord()) {
+            System.out.println("What ?");
+            return;
+        }
+        if (previousRooms.empty()){
+            System.out.println("You can't go back !");
+        }
+        else{
+            step();
+            player.setCurrentRoom(previousRooms.pop());
+            printLocation();
+        }
+    }
+    
+    /**
+     * Print out iformation of the player and its environment/back.
+     */
+    private void stats() {
+        System.out.println(player.getDetails());
+    }
+
+    /**
+     * logic of the command take and the second word
+     */
+    private void take() {
+        if(!parser.getCommand().hasSecondWord()) {
+            // if there is no second word...
+            System.out.println("What item?");
+            return;
+        }
+        else {
+            if (parser.getCommand().getSecondWord().equals("all")) {
+                player.takeAllItems();
+            } 
+            else 
+            {
+                player.takeItem(parser.getCommand().getSecondWord());
+            }
+            
+        }
+    }
+    
+        private void drop() {
+        if(!parser.getCommand().hasSecondWord()) {
+            // if there is no second word...
+            System.out.println("What item?");
+            return;
+        }
+        else {
+            if (parser.getCommand().getSecondWord().equals("all")) {
+                player.dropAllItems();
+            } 
+            else 
+            {
+                player.dropItem(parser.getCommand().getSecondWord());
+            }
+        }
+    }
+    
+    /** 
+     * "Quit" was entered. Check the rest of the command to see
+     * whether we really quit the game.
+     * @return true, if this command quits the game, false otherwise.
+     */
+    private boolean quit() 
+    {
+        if(parser.getCommand().hasSecondWord()) {
+            System.out.println("Quit what?");
+            return false;
+        }
+        else {
+            return true;  // signal that we want to quit
+        }
+    }
+    
+    /**
+     * Print out the opening message for the player.
+     */
+    private void printWelcome()  {
+        System.out.println();
+        System.out.println("The Year is 2165. The earth is worn down by mankinf and we are in need to to look for a new planet.");
+        System.out.println("Therefore, hu,ams semt eight big space ships, Arc-1 to 8 out to planets which are considered habitable for humans.");
+        System.out.println("Every Arc contains a number of animals and plants form the earth to bring them to the new planets.");
+        System.out.println("70 Years have already passed since the Arcs started their mission to reach the other planets.");
+        System.out.println("After a few years, the connection to the others was lost and they were completele on themselves.");
+        System.out.println("\nYou are on Arc-3 - \"Earth\".");
+        System.out.println("You belong to the maintenance team and your mission is to keep the space ship intact until it arrives its destination.");
+        System.out.println("(type 'help' if you need help.)");
+        System.out.println();
+    }
+    
+    /**
+     * Print out some help information.
+     * Here we print some stupid, cryptic message and a list of the 
+     * command words.
+     */
+    private void printHelp() 
+    {
+        System.out.println("You are lost. You are alone. You wander");
+        System.out.println("around at the university.");
+        System.out.println();
+        System.out.println("Your command words are:");
+        System.out.println(parser.getCommandWords());
+    }
+    
+    /**
+     * Method that is used to pringt out the current location of.
+     */
+    private void printLocation() {
+        System.out.println("You are " + player.getCurrentRoom().getDescription());
+        System.out.println(player.getCurrentRoom().getLongDescription());
+
+    }
+    
+    /**
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
@@ -191,236 +422,5 @@ public class Game
         plantRoom2.setExit(plantRoom1);
 
         player.setCurrentRoom(livingRoom2);
-    }
-
-    /**
-     * Print out the opening message for the player.
-     */
-    private void printWelcome()  {
-        System.out.println();
-        System.out.println("The Year is 2165. The earth is worn down by mankinf and we are in need to to look for a new planet.");
-        System.out.println("Therefore, hu,ams semt eight big space ships, Arc-1 to 8 out to planets which are considered habitable for humans.");
-        System.out.println("Every Arc contains a number of animals and plants form the earth to bring them to the new planets.");
-        System.out.println("70 Years have already passed since the Arcs started their mission to reach the other planets.");
-        System.out.println("After a few years, the connection to the others was lost and they were completele on themselves.");
-        System.out.println("\nYou are on Arc-3 - \"Earth\".");
-        System.out.println("You belong to the maintenance team and your mission is to keep the space ship intact until it arrives its destination.");
-        System.out.println("(type 'help' if you need help.)");
-        System.out.println();
-    }
-
-    /**
-     * Given a command, process (that is: execute) the command.
-     * @param command The command to be processed.
-     * @return true If the command ends the game, false otherwise.
-     */
-    private boolean processCommand() 
-    {
-        if(parser.getNewCommand().isUnknown()) {
-            System.out.println("I don't know what you mean...");
-            return false;
-        }
-
-        switch(parser.getCommandWord()) {
-            
-            //alphabetical order
-            case ALICE: alice(); break;
-            case ASK: ask(); break;
-            case BACK: goBack(); break;   
-            case DROP: drop(); break;
-            case EAT: eat(); break; 
-            case GO: goRoom(); break;
-            case LOOK: look(); break;
-            case HELP: printHelp(); break;
-            case QUIT: wantToQuit = quit(); break;
-            case STATS: stats(); break;
-            case TAKE: take(); break;
-                       
-        }
-        return wantToQuit;
-    }
-
-    // implementations of user commands:
-
-    /**
-     * Print out some help information.
-     * Here we print some stupid, cryptic message and a list of the 
-     * command words.
-     */
-    private void printHelp() 
-    {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
-        System.out.println();
-        System.out.println("Your command words are:");
-        System.out.println(parser.getCommandWords());
-    }
-    
-    /**
-     * Method that is used to pringt out the current location of.
-     */
-    private void printLocation() {
-        System.out.println("You are " + player.getCurrentRoom().getDescription());
-        System.out.println(player.getCurrentRoom().getLongDescription());
-
-    }
-
-    /** 
-     * Try to go to one direction. If there is an exit, enter
-     * the new room, otherwise print an error message.
-     */
-    private void goRoom() 
-    {   
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
-            return;
-        }
-
-        String direction = parser.getCommand().getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = player.getCurrentRoom().getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        }
-        else {
-            // if the nextRoom does not have the currentRoom as Exit, the prevRooms get cleared so there is no going back
-            if (!nextRoom.hasExit(player.getCurrentRoom().getId())) {
-                previousRooms.clear();
-                System.out.println("You used a trap door. You can't go back to " + player.getCurrentRoom().getName());
-            }
-            else {
-                previousRooms.push(player.getCurrentRoom());
-            }
-            player.setCurrentRoom(nextRoom);
-            step();
-            printLocation();
-        }
-    }
-    
-    private void step() {
-        for (Actor actor : npcs) {
-            actor.moveToRandomExit();
-        }
-        wantToQuit = player.step();
-    }
-    
-    /**
-     * The player looks around. For now nothing happens...
-     */
-    private void look() {
-        printLocation();
-    }
-    
-    /**
-     * A method that manages the logic of the command eat and the second word
-     */
-    private void eat() {
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Eat what?");
-            return;
-        }
-        else {
-            player.eatItem(parser.getCommand().getSecondWord());
-        }
-    }
-
-    private void ask() {
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Ask who?");
-            return;
-        }
-        else {
-            System.out.println(player.getCurrentRoom().getResponseFromCharacter(parser.getCommand().getSecondWord()));
-        }
-    }
-
-    private void alice() {
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("ALICE: How can I help you?");
-            return;
-        }
-        else {
-            System.out.println("ALICE: I'm afraid I can't help you with that.");
-        }
-    }
-    
-    //goBack method (Thu Ky Vu Hoang)
-    /**
-     * logic of the command back
-     */
-    private void goBack(){
-        if(parser.getCommand().hasSecondWord()) {
-            System.out.println("What ?");
-            return;
-        }
-        if (previousRooms.empty()){
-            System.out.println("You can't go back !");
-        }
-        else{
-            step();
-            player.setCurrentRoom(previousRooms.pop());
-            printLocation();
-        }
-    }
-
-    
-    /*
-     * Print out iformation of the player and its environment/back.
-     */
-    private void stats() {
-        System.out.println(player.getDetails());
-    }
-
-    /**
-     * logic of the command take and the second word
-     */
-    private void take() {
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word...
-            System.out.println("What item?");
-            return;
-        }
-        else {
-            player.takeItem(parser.getCommand().getSecondWord(), player.getCurrentRoom().getItems());
-        }
-    }
-    
-        private void drop() {
-        if(!parser.getCommand().hasSecondWord()) {
-            // if there is no second word...
-            System.out.println("What item?");
-            return;
-        }
-        else {
-            if (parser.getCommand().getSecondWord().equals("all")) {
-                player.dropAllItems(player.getCurrentRoom().getItems());
-            } 
-            else 
-            {
-                player.dropItem(parser.getCommand().getSecondWord(), player.getCurrentRoom().getItems());
-            }
-        }
-    }
-    
-    /** 
-     * "Quit" was entered. Check the rest of the command to see
-     * whether we really quit the game.
-     * @return true, if this command quits the game, false otherwise.
-     */
-    private boolean quit() 
-    {
-        if(parser.getCommand().hasSecondWord()) {
-            System.out.println("Quit what?");
-            return false;
-        }
-        else {
-            return true;  // signal that we want to quit
-        }
     }
 }

@@ -14,7 +14,7 @@ public class Actor
     protected String lastName;
     protected String response;
     
-    private Room currentRoom;
+    protected Room currentRoom;
 
     /**
      * Constructor of an object actor

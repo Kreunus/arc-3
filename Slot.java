@@ -28,12 +28,12 @@ public class Slot {
         number++;
     }
     
-    public void add(int n) {
-        number += n;
+    public void remove() {
+        number--;      
     }
     
-    public void remove() {
-        number--;
+    public int weight() {
+        return (number * item.getWeight());
     }
     
 }

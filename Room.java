@@ -21,7 +21,7 @@ public class Room
     //added private to HashMap and added ArrayList (Thu Ky Vu Hoang)
     private HashMap<String, Room> exits;
     private HashMap<String, Actor> npcs;
-    private HashMap<String, Slot> items;
+    private Inventory items;
     
     /**
      * Create a room described "description". Initially, it has
@@ -33,7 +33,7 @@ public class Room
     {
         exits = new HashMap<>();
         npcs = new HashMap<>();
-        items = new HashMap<>();
+        items = new Inventory();
         this.name = name;
         this.id = id;
         this.description = description;
@@ -106,7 +106,7 @@ public class Room
      */
     public void addItem(int count, String name, String description, int weight,boolean pickable, int calories, boolean eatable) {
         for (int i = 0; i < count ; i++)
-                items.put(name, new Slot(name, description, weight, eatable, calories, pickable));
+                items.add(new Slot(name, description, weight, eatable, calories, pickable));
     }
 
     /**
@@ -121,7 +121,7 @@ public class Room
      */
     public String getItemStrings(){
         String s = "Items:";
-        for (Slot slot : items.values()) {
+        for (Slot slot : items.slots().values()) {
         s += "\n" + slot.details();
         }
         return s;
@@ -137,7 +137,7 @@ public class Room
     /**
      * @return a collection of items
      */
-    public HashMap<String, Slot> getItems() { return items; }
+    public Inventory getItems() { return items; }
 
     /**
      * Mehtod that creates a new NPC in a room.
