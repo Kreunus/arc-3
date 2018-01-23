@@ -22,7 +22,7 @@ public class Room
     private HashMap<String, Room> exits;
     private HashMap<String, Character> npcs;
     
-    private Inventory items;
+    private HashMap<String, Slot> items;
     
     /**
      * Create a room described "description". Initially, it has
@@ -35,7 +35,7 @@ public class Room
         exits = new HashMap<>();
         npcs = new HashMap<>();
         //added ArrayList (Thu Ky Vu Hoang)
-        items = new Inventory();
+        items = new HashMap<String, Slot>();
         this.name = name;
         this.id = id;
         this.description = description;
@@ -103,11 +103,8 @@ public class Room
      * @param item an Item that gets added to the room
      */
     public void addItem(int count, String name, String description, int weight,boolean pickable, int calories, boolean eatable) {
-        items.add(count, name, description, weight, eatable, calories, pickable);
-    }
-    
-    public void addItem(int count, String name, String description, int weight, boolean pickable) {
-        items.add(count, name, description, weight, false, 0, pickable);
+        for (int i = 0; i < count ; i++)
+                items.put(name, new Slot(name, description, weight, eatable, calories, pickable));
     }
 
     /**
@@ -117,13 +114,15 @@ public class Room
     public void removeItem(String itemName) {
         items.remove(itemName);
     }
-
     /**
-     * @return a String that includes all available items in a room.
-     * @author Thu Ky Vu Hoang
+     * @return the String s generated a list of all items in the bag
      */
     public String getItemStrings(){
-        return items.details();
+        String s = "Items:";
+        for (Slot slot : items.values()) {
+        s += "\n" + slot.details();
+        }
+        return s;
     }
 
     /**
@@ -136,7 +135,7 @@ public class Room
     /**
      * @return a collection of items
      */
-    public Inventory getItems() { return items; }
+    public HashMap<String, Slot> getItems() { return items; }
 
     /**
      * Mehtod that creates a new NPC in a room.

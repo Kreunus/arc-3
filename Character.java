@@ -5,18 +5,17 @@
  * @author Aaron Winter, Sebastian Pütz
  * @version 2018/01/21
  */
-public class Character
+public class Character extends Actor
 {
     // instance variables - replace the example below with your own
-    private String firstName, lastName, response;
+    private String response;
 
     /**
      * Constructor for objects of class Character
      */
     public Character(String fName, String lName, String response)
     {
-        firstName = fName;
-        lastName = lName;
+        super(fName, lName);
         this.response = response;
     }
     
@@ -25,18 +24,5 @@ public class Character
      */
     public String getResponse() { return response; }
     
-    /**
-     * @return the first name of a npc
-     */
-    public String getFirstName() { return firstName; }
-    
-    /**
-     * @return the last name of a npc
-     */    
-    public String getLastName() { return lastName; }
-   
-    /**
-     * @return the complete name of a npc
-     */
-    public String getName() { return firstName + " " + lastName; }
+    public boolean step() { return false; };
 }

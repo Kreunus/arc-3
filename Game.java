@@ -19,7 +19,7 @@ import java.util.Stack;
 
 public class Game 
 {
-    private Actor player;
+    private Player player;
     private Parser parser;
     private Room currentRoom;
 
@@ -32,7 +32,7 @@ public class Game
      * Create the game and initialise its internal map.
      */
     public Game() {
-        player = new Actor("Richard", "Clarke");
+        player = new Player("Richard", "Clarke");
         createRooms();
         previousRooms = new Stack<Room>();
         parser = new Parser();
@@ -64,13 +64,13 @@ public class Game
         Room navigationRoom = new Room("navigation room", "nav", "in the navigation room.");
         
         Room computationRoom = new Room("computing room", "com", "in the computing room.");
-        computationRoom.addItem(4, "computer", "a computer that computes things", 12000, true);
+        computationRoom.addItem(4, "computer", "a computer that computes things", 12000, true, 0, false);
         computationRoom.addNpc("Kelly", "Smith", "These old computers are killing me.");
         
         Room laboratory = new Room("laboratory", "lab", "in the laboratory.");
         laboratory.addItem(1, "cookie", "Increases maximum weight", 50, true, 200, true);
-        laboratory.addItem(1, "toolkit", "A basic toolkit for repairing things", 100, true);
-        laboratory.addItem(1, "recycler", "A big Mashine for recycling stuff", 500000, true);
+        laboratory.addItem(1, "toolkit", "A basic toolkit for repairing things", 100, true, 0, false);
+        laboratory.addItem(1, "recycler", "A big Mashine for recycling stuff", 500000, true, 0, false);
         
         Room armory = new Room("armory", "arm", "in the armory.");
         
@@ -83,30 +83,30 @@ public class Game
         Room aiCore = new Room("core room", "core", "in the artificial intelligence core room.");
         
         Room engineRoom1 = new Room("enginge room 1", "eng1", "in the engine room 1.");
-        engineRoom1.addItem(1, "engine", "These engine is massive!", 3000000, false);
+        engineRoom1.addItem(1, "engine", "These engine is massive!", 3000000, false, 0, false);
         
         Room engineRoom2 = new Room("engine room 2", "eng2", "in the engine room 2.");
-        engineRoom2.addItem(1, "engine", "These engine is massive!", 3000000, false);
+        engineRoom2.addItem(1, "engine", "These engine is massive!", 3000000, false, 0, false);
 
         Room cryoRoom1 = new Room("cryo room 1", "cryo1", "in the cryo room 1.");
-        cryoRoom1.addItem(26, "capsules", "a frozen human, incredible!", 120000, false);
+        cryoRoom1.addItem(26, "capsules", "a frozen human, incredible!", 120000, false, 0, false);
         
         Room cryoRoom2 = new Room("cryo room 2", "cryo2", "in the cryo room 2.");
-        cryoRoom2.addItem(26, "capsules", "a frozen human, incredible!", 120000, false);
+        cryoRoom2.addItem(26, "capsules", "a frozen human, incredible!", 120000, false, 0, false);
         
         Room livingRoom1 = new Room("living cell 1", "cell1", "in the living cell 1.");
         livingRoom1.addItem(2, "banana", "It's a banana. Bananas are cool!", 100, true, 200, true);
         
         Room livingRoom2 = new Room("living cell 2", "cell2", "in your living cell 2.");
         livingRoom2.addItem(1, "apple", "an apple a day keeps the doctor away", 100, true, 200, true);
-        livingRoom2.addItem(2, "clothes", "Normal Clothes no effect", 2000, true);
+        livingRoom2.addItem(2, "clothes", "Normal Clothes no effect", 2000, true, 0, false);
         
         Room livingRoom3 = new Room("living cell 3", "cell3", "in the living cell 3.");
         livingRoom3.addNpc("Oprah", "Dontos", "Hey " + player.getFirstName() + ", how are you?");
         livingRoom3.addItem(3, "orange", "So orange...", 100, true, 200, true);
         
         Room livingRoom4 = new Room("living cell 4", "cell4", "in the living cell 4.");
-        livingRoom4.addItem(1, "clothes", "Normal Clothes no effect", 2000, true);
+        livingRoom4.addItem(1, "clothes", "Normal Clothes no effect", 2000, true, 0, false);
         
         Room animalRoom1 = new Room("animal room 1", "anim1", "in the animal room 1.");
         Room animalRoom2 = new Room("animal room 2", "anim2", "in the animal room 2.");
@@ -293,18 +293,13 @@ public class Game
     }
     
     private void step() {
-        wantToQuit = player.step(10);
-    }
-    
-    private void step(int calories) {
-        wantToQuit = player.step(calories);
+        wantToQuit = player.step();
     }
     
     /**
      * The player looks around. For now nothing happens...
      */
     private void look() {
-        step(2);
         printLocation();
     }
     
@@ -323,7 +318,6 @@ public class Game
     }
 
     private void ask() {
-        step(5);
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Ask who?");
@@ -335,7 +329,6 @@ public class Game
     }
 
     private void alice() {
-        step(5);
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("ALICE: How can I help you?");
@@ -370,7 +363,6 @@ public class Game
      * Print out iformation of the player and its environment/back.
      */
     private void stats() {
-        step(5);
         System.out.println(player.getDetails());
     }
 
@@ -381,11 +373,9 @@ public class Game
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word...
             System.out.println("What item?");
-            step(2);
             return;
         }
         else {
-            step(5);
             player.takeItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
         }
     }
@@ -394,17 +384,14 @@ public class Game
         if(!parser.getCommand().hasSecondWord()) {
             // if there is no second word...
             System.out.println("What item?");
-            step(2);
             return;
         }
         else {
             if (parser.getCommand().getSecondWord().equals("all")) {
                 player.dropAllItems(currentRoom.getItems());
-                step(10);
             } 
             else 
             {
-                step(5);
                 player.dropItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
             }
         }
