@@ -15,11 +15,9 @@ public class Player extends Actor
     
     private Inventory inventory;
     
-    /**
-     * Constructor for objects of class Player
+    /** Constructor for objects of class Player
      */
-    public Player(String firstName, String lastName)
-    {
+    public Player(String firstName, String lastName) {
         super(firstName, lastName, "");
         this.weight = 0;
         this.calories = CALORIES_MAX;
@@ -36,8 +34,7 @@ public class Player extends Actor
         return false;
     }
     
-    /**
-     * @return the String s generated below
+    /** @return the String s generated below
      */
     public String getDetails() {
         String s = "Details:";
@@ -49,19 +46,17 @@ public class Player extends Actor
         return s;
     }
     
-    /**
-     * @return the String s generated a list of all items in the bag
+    /** @return the String s generated a list of all items in the bag
      */
     public String getItemStrings(){
         String s = "Items:";
         for (String itemName : inventory.slots().keySet()) {
-        s += "\n" + inventory.slots().get(itemName).details();
+            s += "\n" + inventory.slots().get(itemName).details();
         }
         return s;
     }
     
-    /**
-     * logic of droping an item from the invetory and adding it to a room
+    /** logic of droping an item from the invetory and adding it to a room
      */
     public void dropItem(String itemName) {
         Inventory roomItems = currentRoom.getItems();
@@ -76,8 +71,7 @@ public class Player extends Actor
         }
     }
     
-    /**
-     * logic of taking an item from the current room and adding it to the inventory
+    /** logic of taking an item from the current room and adding it to the inventory
      */
     public void takeItem(String itemName) {
         Inventory roomItems = currentRoom.getItems();
@@ -95,8 +89,7 @@ public class Player extends Actor
         }
     }
     
-    /**
-     * logic of droping all items from the invetory and adding them to a room
+    /** logic of droping all items from the invetory and adding them to a room
      */
     public void dropAllItems()
     {
@@ -107,8 +100,7 @@ public class Player extends Actor
         System.out.println("You dropped all Items");
     }
     
-    /**
-     * logic of taking all items from the room and adding them to the inventory
+    /** logic of taking all items from the room and adding them to the inventory
      */
     public void takeAllItems()
     {
@@ -131,8 +123,7 @@ public class Player extends Actor
         }
     }
 
-    /**
-     * logic of eating an item from the inventory
+    /** logic of eating an item from the inventory
      * @param itemName the name of the item which should be eaten
      */
     public void eatItem(String itemName) {
@@ -146,8 +137,9 @@ public class Player extends Actor
             else {
                 weight -= inventory.get(itemName).item().getWeight();
                 calories += inventory.get(itemName).item().getCalories();
-                if(calories > CALORIES_MAX)
+                if(calories > CALORIES_MAX) {
                     calories = CALORIES_MAX;
+                }
                 inventory.remove(itemName);        
                 System.out.println("You ate " + itemName);
                 if (itemName.toLowerCase().equals("cookie")) {

@@ -29,8 +29,7 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String name, String id, String description) 
-    {
+    public Room(String name, String id, String description) {
         exits = new HashMap<>();
         npcs = new HashMap<>();
         items = new Inventory();
@@ -39,40 +38,26 @@ public class Room
         this.description = description;
     }
 
-    /**
-     * Define the exits of this room.  Every direction either leads
+    /** Define the exits of this room.  Every direction either leads
      * to another room or is null (no exit there).
      * @param room
      */
-    public void setExit(Room room) {
-        exits.put(room.getId(), room);
-    }
+    public void setExit(Room room) { exits.put(room.getId(), room); }
 
-    /**
-     * @param name
+    /** @param name
      * @retung the collection of exits
      */
-    public Room getExit(String name) {
-        return exits.get(name);
-    }
+    public Room getExit(String name) { return exits.get(name); }
     
-    public HashMap<String, Room> getExits() {
-        return exits;
-    }
+    public HashMap<String, Room> getExits() { return exits; }
 
-    /**
-     * @return The description of the room.
+    /** @return The description of the room.
      */
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
 
-    /**
-     * @return The name of the room.
+    /** @return The name of the room.
      */
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
     public boolean hasExit(String id) {
         for (Room room : exits.values()) {
@@ -82,12 +67,9 @@ public class Room
         return false;
     }
 
-    /**
-     * @return The id of the room.
+    /** @return The id of the room.
      */
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id;  }
 
     /**
      * @return a String with all exits of a room.
@@ -105,17 +87,16 @@ public class Room
      * @param item an Item that gets added to the room
      */
     public void addItem(int count, String name, String description, int weight,boolean pickable, int calories, boolean eatable) {
-        for (int i = 0; i < count ; i++)
-                items.add(name, description, weight, eatable, calories, pickable);
+        for (int i = 0; i < count ; i++) {
+            items.add(name, description, weight, eatable, calories, pickable);
+        }
     }
 
     /**
      * A method that removes a item from its collection of a room.
      * @param item
      */
-    public void removeItem(String itemName) {
-        items.remove(itemName);
-    }
+    public void removeItem(String itemName) { items.remove(itemName); }
     
     /**
      * @return the String s generated a list of all items in the bag
@@ -123,7 +104,7 @@ public class Room
     public String getItemStrings(){
         String s = "Items:";
         for (String itemName : items.slots().keySet()) {
-        s += "\n" + items.slots().get(itemName).details();
+            s += "\n" + items.slots().get(itemName).details();
         }
         return s;
     }
@@ -158,8 +139,9 @@ public class Room
      * @return a String thats includes all reponses from NPCs.
      */
     public String getResponseFromCharacter(String name) {
-        if(npcs.get(name) == null)
+        if(npcs.get(name) == null) {
             return "There is no " + name;
+        }
         return name + ": \"" + npcs.get(name).getResponse() + "\"";
     }
 

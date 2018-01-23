@@ -8,8 +8,7 @@
 public class Main
 {
     // instance variables - replace the example below with your own
-    public Main()
-    {}
+    public Main() {}
 
     public static void main(String[] args) {
         Game game = new Game();

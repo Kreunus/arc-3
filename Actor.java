@@ -19,25 +19,21 @@ public class Actor
     /**
      * Constructor of an object actor
      */
-    public Actor(String firstName, String lastName, String response)
-    {
+    public Actor(String firstName, String lastName, String response) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.response = response;
     }
 
-    /**
-     * @return first name of the actor
+    /** @return first name of the actor
      */
     public String getFirstName() { return firstName; }
 
-    /**
-     * @return last name of the actor
+    /** @return last name of the actor
      */
     public String getLastName() { return lastName; }
     
-    /**
-     * @return complete name of the actor
+    /** @return complete name of the actor
      */
     public String getName() { return firstName + " " + lastName; }
     

@@ -13,17 +13,11 @@ public class Inventory
     /**
      * Constructor for objects of class Inventory
      */
-    public Inventory() {
-        slots = new HashMap();
-    }
+    public Inventory() { slots = new HashMap(); }
     
-    public Slot get(String itemName) {
-        return slots.get(itemName);
-    }
+    public Slot get(String itemName) { return slots.get(itemName); }
     
-    public HashMap<String, Slot> slots() {
-        return slots;
-    }
+    public HashMap<String, Slot> slots() { return slots; }
     
     public void addAll(HashMap<String, Slot> slots) {
         for (Slot slot : slots.values()) {
@@ -32,7 +26,7 @@ public class Inventory
     }
     
     public void add(String name, String description, int weight, boolean eatable, int calories, boolean pickable) {
-     add(new Slot(name, description, weight, eatable, calories, pickable));
+        add(new Slot(name, description, weight, eatable, calories, pickable));
     }
     
     public void add(Slot slot) {
@@ -41,15 +35,14 @@ public class Inventory
         }
         else {
             int number = slot.number();
-            for (int i = 0; i < number; i++)
+            for (int i = 0; i < number; i++) {
                 slots.get(slot.item().getName()).add();
+            }
         }
     }
     
     
-    public void removeSlot(String itemName) {
-        slots.remove(itemName);
-    }
+    public void removeSlot(String itemName) { slots.remove(itemName);  }
     
     public void remove(String itemName) {
         if (slots.get(itemName).number() > 1) {
@@ -62,8 +55,9 @@ public class Inventory
     
     public int size() {
         int size = 0;
-        for (Slot slot : slots.values())
+        for (Slot slot : slots.values()) {
             size += slot.number();
+        }
         return size;
     }
 }

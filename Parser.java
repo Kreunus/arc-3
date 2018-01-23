@@ -21,19 +21,14 @@ public class Parser
 {
     private Scanner reader;         // source of command input
     private Command command;
-    /**
-     * Create a parser to read from the terminal window.
+    
+    /** Create a parser to read from the terminal window.
      */
-    public Parser() 
-    {
-        reader = new Scanner(System.in);
-    }
+    public Parser() { reader = new Scanner(System.in); }
 
-    /**
-     * @return The next command from the user.
+    /** @return The next command from the user.
      */
-    public Command getNewCommand() 
-    {
+    public Command getNewCommand() {
         String inputLine;   // will hold the full input line
         String word1 = null;
         String word2 = null;
@@ -66,9 +61,7 @@ public class Parser
     
     public Command getCommand() { return command; }
     
-    public String getCommandWords() {
-        return CommandWord.getCommandWords();
-    }
+    public String getCommandWords() { return CommandWord.getCommandWords(); }
     
     public CommandWord getCommandWord() {
         return CommandWord.fromString(command.getCommandWord());
