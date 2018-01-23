@@ -19,7 +19,7 @@ public class Room
 {
     private String name, id, description;
     //added private to HashMap and added ArrayList (Thu Ky Vu Hoang)
-    private HashMap <String, Room> exits;
+    private HashMap<String, Room> exits;
     private HashMap<String, Character> npcs;
     
     private Inventory items;
