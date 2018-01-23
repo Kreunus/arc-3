@@ -216,7 +216,7 @@ public class Game
             case ALICE: alice(); break;
             case ASK: ask(); break;
             case BACK: goBack(); break;
-            case BAG: bag(); break;   
+            case STATS: stats(); break;   
             case DROP: drop(); break;
             case EAT: eat(); break; 
             case GO: goRoom(); break;
@@ -360,7 +360,7 @@ public class Game
     /*
      * Print out iformation of the player and its environment/back.
      */
-    private void bag() {
+    private void stats() {
         step(5);
         System.out.println(player.getDetails());
     }

@@ -13,7 +13,7 @@ public enum CommandWord
     ALICE("alice"),
     ASK("ask"),
     BACK("back"), //by Thu Ky Vu Hoang
-    BAG("bag"),
+    STATS("stats"),
     DROP("drop"),
     EAT("eat"),
     GO("go"),
