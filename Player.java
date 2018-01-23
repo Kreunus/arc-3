@@ -54,8 +54,8 @@ public class Player extends Actor
      */
     public String getItemStrings(){
         String s = "Items:";
-        for (Slot slot : inventory.slots().values()) {
-        s += "\n" + slot.details();
+        for (String itemName : inventory.slots().keySet()) {
+        s += "\n" + inventory.slots().get(itemName).details();
         }
         return s;
     }

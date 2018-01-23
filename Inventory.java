@@ -21,10 +21,6 @@ public class Inventory
         return slots.get(itemName);
     }
     
-    public Item getItem(String itemName) {
-        return slots.get(itemName).item();
-    }
-    
     public HashMap<String, Slot> slots() {
         return slots;
     }
@@ -33,6 +29,10 @@ public class Inventory
         for (Slot slot : slots.values()) {
             add(slot);
         }
+    }
+    
+    public void add(String name, String description, int weight, boolean eatable, int calories, boolean pickable) {
+     slots.put(name, new Slot(name, description, weight, eatable, calories, pickable));
     }
     
     public void add(Slot slot) {
@@ -45,6 +45,7 @@ public class Inventory
                 slots.get(slot.item().getName()).add();
         }
     }
+    
     
     public void removeSlot(String itemName) {
         slots.remove(itemName);

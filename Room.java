@@ -106,7 +106,7 @@ public class Room
      */
     public void addItem(int count, String name, String description, int weight,boolean pickable, int calories, boolean eatable) {
         for (int i = 0; i < count ; i++)
-                items.add(new Slot(name, description, weight, eatable, calories, pickable));
+                items.add(name, description, weight, eatable, calories, pickable);
     }
 
     /**
@@ -116,13 +116,14 @@ public class Room
     public void removeItem(String itemName) {
         items.remove(itemName);
     }
+    
     /**
      * @return the String s generated a list of all items in the bag
      */
     public String getItemStrings(){
         String s = "Items:";
-        for (Slot slot : items.slots().values()) {
-        s += "\n" + slot.details();
+        for (String itemName : items.slots().keySet()) {
+        s += "\n" + items.slots().get(itemName).details();
         }
         return s;
     }
