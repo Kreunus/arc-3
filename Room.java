@@ -20,8 +20,7 @@ public class Room
     private String name, id, description;
     //added private to HashMap and added ArrayList (Thu Ky Vu Hoang)
     private HashMap<String, Room> exits;
-    private HashMap<String, Character> npcs;
-    
+    private HashMap<String, Actor> npcs;
     private HashMap<String, Slot> items;
     
     /**
@@ -34,8 +33,7 @@ public class Room
     {
         exits = new HashMap<>();
         npcs = new HashMap<>();
-        //added ArrayList (Thu Ky Vu Hoang)
-        items = new HashMap<String, Slot>();
+        items = new HashMap<>();
         this.name = name;
         this.id = id;
         this.description = description;
@@ -56,6 +54,10 @@ public class Room
      */
     public Room getExit(String name) {
         return exits.get(name);
+    }
+    
+    public HashMap<String, Room> getExits() {
+        return exits;
     }
 
     /**
@@ -141,9 +143,13 @@ public class Room
      * Mehtod that creates a new NPC in a room.
      * @param fName, lName, respone
      */ 
-    public void addNpc(String fName, String lName, String response) {
-        Character c = new Character(fName, lName, response);
-        npcs.put(fName, c);
+    public void addNpc(Actor actor) {
+        actor.setCurrentRoom(this);
+        npcs.put(actor.getFirstName(), actor);
+    }
+    
+    public void removeNpc(String name) {
+        npcs.remove(name);
     }
 
     /**
@@ -161,7 +167,7 @@ public class Room
      */
     public String getCharacterStrings() {
         String s = "Characters:";
-        for (Character c : npcs.values()) {
+        for (Actor c : npcs.values()) {
             s += "\n" + c.getName();
         }
         return s;

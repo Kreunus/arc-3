@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Random;
 /**
@@ -7,22 +7,24 @@ import java.util.Random;
  * @author Aaron Winter 
  * @version 2018.01.21
  */
-public abstract class Actor
+public class Actor
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private String firstName;
-    private String lastName;
+    protected String firstName;
+    protected String lastName;
+    protected String response;
+    
+    private Room currentRoom;
 
     /**
      * Constructor of an object actor
      */
-    public Actor(String firstName, String lastName)
+    public Actor(String firstName, String lastName, String response)
     {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.response = response;
     }
-    
-    public abstract boolean step();
 
     /**
      * @return first name of the actor
@@ -33,18 +35,27 @@ public abstract class Actor
      * @return last name of the actor
      */
     public String getLastName() { return lastName; }
-
+    
     /**
      * @return complete name of the actor
      */
     public String getName() { return firstName + " " + lastName; }
-
-    /**
-     * @return the String s generated below
-     */
-    public String getDetails() {
-        String s = "Details:";
-        s += "\n" + getName();
-        return s;
+    
+    public String getResponse() { return response; }
+    
+    public Room getCurrentRoom() { return currentRoom; }
+    
+    public void setCurrentRoom(Room nextRoom) { currentRoom = nextRoom; }
+    
+    public void moveToRandomExit() {
+        Random rand = new Random();
+        HashMap<String, Room> exits = currentRoom.getExits();
+        int number = rand.nextInt(exits.size());
+        Object[] exitRooms = exits.values().toArray();
+        Room exitRoom = (Room) exitRooms[number];
+        exitRoom.addNpc(this);
+        currentRoom.removeNpc(firstName);
+        currentRoom = exitRoom ;
+        System.out.println("[DEBUG]: "+ firstName + " moved to " + currentRoom.getName());
     }
 }

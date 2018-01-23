@@ -20,7 +20,7 @@ public class Player extends Actor
      */
     public Player(String firstName, String lastName)
     {
-        super(firstName, lastName);
+        super(firstName, lastName, "");
         this.weight = 0;
         this.calories = CALORIES_MAX;
         

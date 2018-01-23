@@ -1,5 +1,5 @@
 import java.util.Stack;
-
+import java.util.ArrayList;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -21,21 +21,23 @@ public class Game
 {
     private Player player;
     private Parser parser;
-    private Room currentRoom;
+    // private Room currentRoom;
 
     boolean wantToQuit;
 
     //saves the current room before going to the next (Thu Ky Vu Hoang)
     private Stack<Room> previousRooms;
+    private ArrayList<Actor> npcs;
 
     /**
      * Create the game and initialise its internal map.
      */
     public Game() {
         player = new Player("Richard", "Clarke");
-        createRooms();
         previousRooms = new Stack<Room>();
+        npcs = new ArrayList<>();
         parser = new Parser();
+        createRooms();
         wantToQuit = false;
     }
 
@@ -61,11 +63,18 @@ public class Game
      */
     private void createRooms() {
         //initialize rooms
+        Actor kelly = new Actor("Kelly", "Smith", "These old computers are killing me.");
+        npcs.add(kelly);
+        Actor oprah = new Actor("Oprah", "Dontos", "Hey " + player.getFirstName() + ", how are you?");
+        npcs.add(oprah);
+        Actor noah = new Actor("Noah", "Windbreaker", "What are you doing in my office!");
+        npcs.add(noah);
+        
         Room navigationRoom = new Room("navigation room", "nav", "in the navigation room.");
         
         Room computationRoom = new Room("computing room", "com", "in the computing room.");
         computationRoom.addItem(4, "computer", "a computer that computes things", 12000, true, 0, false);
-        computationRoom.addNpc("Kelly", "Smith", "These old computers are killing me.");
+        computationRoom.addNpc(kelly);
         
         Room laboratory = new Room("laboratory", "lab", "in the laboratory.");
         laboratory.addItem(1, "cookie", "Increases maximum weight", 50, true, 200, true);
@@ -102,7 +111,7 @@ public class Game
         livingRoom2.addItem(2, "clothes", "Normal Clothes no effect", 2000, true, 0, false);
         
         Room livingRoom3 = new Room("living cell 3", "cell3", "in the living cell 3.");
-        livingRoom3.addNpc("Oprah", "Dontos", "Hey " + player.getFirstName() + ", how are you?");
+        livingRoom3.addNpc(oprah);
         livingRoom3.addItem(3, "orange", "So orange...", 100, true, 200, true);
         
         Room livingRoom4 = new Room("living cell 4", "cell4", "in the living cell 4.");
@@ -124,7 +133,7 @@ public class Game
         Room hall4 = new Room("sector 5", "sec5", "in the cryo chamber unit.");
         Room hall5 = new Room("hall (sector 6)", "sec6", "in the animal and plant unit.");
         
-        captainCell.addNpc("Noah", "Windbreaker", "What are you doing in my office!");
+        captainCell.addNpc(noah);
 
         //sets exits for rooms
         navigationRoom.setExit(computationRoom);
@@ -182,7 +191,7 @@ public class Game
         plantRoom1.setExit(plantRoom2);
         plantRoom2.setExit(plantRoom1);
 
-        currentRoom = livingRoom2;
+        player.setCurrentRoom(livingRoom2);
     }
 
     /**
@@ -252,8 +261,8 @@ public class Game
      * Method that is used to pringt out the current location of.
      */
     private void printLocation() {
-        System.out.println("You are " + currentRoom.getDescription());
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println("You are " + player.getCurrentRoom().getDescription());
+        System.out.println(player.getCurrentRoom().getLongDescription());
 
     }
 
@@ -272,27 +281,30 @@ public class Game
         String direction = parser.getCommand().getSecondWord();
 
         // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
+        Room nextRoom = player.getCurrentRoom().getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
             // if the nextRoom does not have the currentRoom as Exit, the prevRooms get cleared so there is no going back
-            if (!nextRoom.hasExit(currentRoom.getId())) {
+            if (!nextRoom.hasExit(player.getCurrentRoom().getId())) {
                 previousRooms.clear();
-                System.out.println("You used a trap door. You can't go back to " + currentRoom.getName());
+                System.out.println("You used a trap door. You can't go back to " + player.getCurrentRoom().getName());
             }
             else {
-                previousRooms.push(currentRoom);
+                previousRooms.push(player.getCurrentRoom());
             }
-            currentRoom = nextRoom;
+            player.setCurrentRoom(nextRoom);
             step();
             printLocation();
         }
     }
     
     private void step() {
+        for (Actor actor : npcs) {
+            actor.moveToRandomExit();
+        }
         wantToQuit = player.step();
     }
     
@@ -324,7 +336,7 @@ public class Game
             return;
         }
         else {
-            System.out.println(currentRoom.getResponseFromCharacter(parser.getCommand().getSecondWord()));
+            System.out.println(player.getCurrentRoom().getResponseFromCharacter(parser.getCommand().getSecondWord()));
         }
     }
 
@@ -353,7 +365,7 @@ public class Game
         }
         else{
             step();
-            currentRoom = previousRooms.pop();
+            player.setCurrentRoom(previousRooms.pop());
             printLocation();
         }
     }
@@ -376,7 +388,7 @@ public class Game
             return;
         }
         else {
-            player.takeItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
+            player.takeItem(parser.getCommand().getSecondWord(), player.getCurrentRoom().getItems());
         }
     }
     
@@ -388,11 +400,11 @@ public class Game
         }
         else {
             if (parser.getCommand().getSecondWord().equals("all")) {
-                player.dropAllItems(currentRoom.getItems());
+                player.dropAllItems(player.getCurrentRoom().getItems());
             } 
             else 
             {
-                player.dropItem(parser.getCommand().getSecondWord(), currentRoom.getItems());
+                player.dropItem(parser.getCommand().getSecondWord(), player.getCurrentRoom().getItems());
             }
         }
     }
