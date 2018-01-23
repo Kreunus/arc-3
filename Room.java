@@ -72,6 +72,14 @@ public class Room
         return name;
     }
 
+    public boolean hasExit(String id) {
+        for (Room room : exits.values()) {
+            if (room.getId().equals(id))
+                return true;
+        }
+        return false;
+    }
+
     /**
      * @return The id of the room.
      */

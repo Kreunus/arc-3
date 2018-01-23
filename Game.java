@@ -131,6 +131,9 @@ public class Game
         computationRoom.setExit(navigationRoom);
         computationRoom.setExit(hall3);
 
+        // TRAPDOOR! Trapdoors are automatically recognized if the nextRoom doesn't have the currentRoom as Exit.
+        computationRoom.setExit(hall5);
+
         hall3.setExit(computationRoom);
         hall3.setExit(livingRoom1);
         hall3.setExit(livingRoom2);
@@ -275,8 +278,14 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
-            // save current position (Thu Ky Vu Hoang)
-            previousRooms.push(currentRoom);
+            // if the nextRoom does not have the currentRoom as Exit, the prevRooms get cleared so there is no going back
+            if (!nextRoom.hasExit(currentRoom.getId())) {
+                previousRooms.clear();
+                System.out.println("You used a trap door. You can't go back to " + currentRoom.getName());
+            }
+            else {
+                previousRooms.push(currentRoom);
+            }
             currentRoom = nextRoom;
             step();
             printLocation();
