@@ -32,7 +32,7 @@ public class Inventory
     }
     
     public void add(String name, String description, int weight, boolean eatable, int calories, boolean pickable) {
-     slots.put(name, new Slot(name, description, weight, eatable, calories, pickable));
+     add(new Slot(name, description, weight, eatable, calories, pickable));
     }
     
     public void add(Slot slot) {
@@ -64,6 +64,6 @@ public class Inventory
         int size = 0;
         for (Slot slot : slots.values())
             size += slot.number();
-        return size();
+        return size;
     }
 }

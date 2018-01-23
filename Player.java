@@ -72,6 +72,7 @@ public class Player extends Actor
             weight -= (inventory.get(itemName).item().getWeight());
             roomItems.add(inventory.get(itemName));                
             inventory.remove(itemName);
+            System.out.println("You dropped " + itemName);
         }
     }
     
@@ -90,6 +91,7 @@ public class Player extends Actor
             weight += (roomItems.get(itemName).item().getWeight());
             inventory.add(roomItems.get(itemName));                
             roomItems.remove(itemName);
+            System.out.println("You took " + itemName);
         }
     }
     
