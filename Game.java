@@ -215,14 +215,14 @@ public class Game
             //alphabetical order
             case ALICE: alice(); break;
             case ASK: ask(); break;
-            case BACK: goBack(); break;
-            case STATS: stats(); break;   
+            case BACK: goBack(); break;   
             case DROP: drop(); break;
             case EAT: eat(); break; 
             case GO: goRoom(); break;
-            case HELP: printHelp(); break;
             case LOOK: look(); break;
+            case HELP: printHelp(); break;
             case QUIT: wantToQuit = quit(); break;
+            case STATS: stats(); break;
             case TAKE: take(); break;
                        
         }
