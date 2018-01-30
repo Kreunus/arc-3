@@ -1,11 +1,10 @@
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Random;
 /**
- * Beschreiben Sie hier die Klasse Actor.
+ * An Actor is a character that can appear in the game. Currently used for npcs.
  * 
  * @author Aaron Winter 
- * @version 2018.01.21
+ * @version 2018.01.30
  */
 public class Actor
 {
@@ -16,8 +15,7 @@ public class Actor
     
     protected Room currentRoom;
 
-    /**
-     * Constructor of an object actor
+    /** Constructor of an object actor
      */
     public Actor(String firstName, String lastName, String response) {
         this.firstName = firstName;
@@ -33,7 +31,7 @@ public class Actor
      */
     public String getLastName() { return lastName; }
     
-    /** @return complete name of the actor
+    /** @return the complete name of the actor
      */
     public String getName() { return firstName + " " + lastName; }
     
@@ -43,6 +41,8 @@ public class Actor
     
     public void setCurrentRoom(Room nextRoom) { currentRoom = nextRoom; }
     
+    /** Lets an Actor move from its current room randomly to a neighbour room.
+     */
     public void moveToRandomExit() {
         Random rand = new Random();
         HashMap<String, Room> exits = currentRoom.getExits();

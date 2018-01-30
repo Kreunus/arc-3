@@ -1,8 +1,9 @@
 /**
- * Write a description of class Item here.
+ * Items are objects which can be found in rooms and can be carried by the player. 
+ * These can be things like food, tools, clothes, computers, furniture and so on and so forth.
  * 
- * @author Thu Ky Vu Hoang, Sebastian PÃ¼tz
- * @version 2018.01.21
+ * @author Thu Ky Vu Hoang, Sebastian Pütz, Aaron Winter
+ * @version 2018.01.30
  */
 public class Item
 {
@@ -11,9 +12,12 @@ public class Item
     private String description;
     
     private int weight;
+    // determines how much calories an item gives to a player, if it is eatable
     private int calories;
     
+    // Whether an object can be picked up by the player or not
     private boolean pickable;
+    // whether an object can be eaten by the player or not
     private boolean eatable;
     
     public Item() {}

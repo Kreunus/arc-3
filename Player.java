@@ -25,6 +25,9 @@ public class Player extends Actor
         this.inventory = new Inventory();
     }
     
+    /** step() is called when a player performes an action. it should reduce the amount of calories left for
+     * the player and if it falls to or below zero, the player dies - game over
+     */
     public boolean step() {
         calories -= CALORIES_STEP_COST;
         if (calories <= 0) {

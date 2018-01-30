@@ -1,6 +1,16 @@
-public class Slot {
+/**
+ * The Slot is used for the players inventory and represents one slot for an item 
+ * Also allows to have multiples of an item which was not possible before with just using a HashMap 
+ * 
+ * @author Aaron Winter
+ * @version 2018.01.30
+ */
 
+public class Slot {
+    
+    // the stored item
     private Item item = new Item();
+    // keeps track of the number of the stored item
     private int number;
 
     Slot(Item item) {
