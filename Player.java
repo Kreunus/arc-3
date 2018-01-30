@@ -125,30 +125,28 @@ public class Player extends Actor
             roomItems.removeSlot(itemName);
         }
     }
-
+    
     /** logic of eating an item from the inventory
      * @param itemName the name of the item which should be eaten
      */
     public void eatItem(String itemName) {
         if (inventory.get(itemName) == null) {
             System.out.println("There is no such item in your inventory");
-        }
+        } 
+        else if (!inventory.get(itemName).item().isEatable()) {
+            System.out.println("You can't eat " + itemName);
+        } 
         else {
-            if(!inventory.get(itemName).item().isEatable()) {
-                System.out.println("You can't eat " + itemName);
+            weight -= inventory.get(itemName).item().getWeight();
+            calories += inventory.get(itemName).item().getCalories();
+            if(calories > CALORIES_MAX) {
+                calories = CALORIES_MAX;
             }
-            else {
-                weight -= inventory.get(itemName).item().getWeight();
-                calories += inventory.get(itemName).item().getCalories();
-                if(calories > CALORIES_MAX) {
-                    calories = CALORIES_MAX;
-                }
-                inventory.remove(itemName);        
-                System.out.println("You ate " + itemName);
-                if (itemName.toLowerCase().equals("cookie")) {
-                    WEIGHT_MAX += 1000;
-                    System.out.println("Your max weight increased by 1000!");
-                }
+            inventory.remove(itemName);        
+            System.out.println("You ate " + itemName);
+            if (itemName.toLowerCase().equals("cookie")) {
+                WEIGHT_MAX += 1000;
+                System.out.println("Your max weight increased by 1000!");
             }
         }
     }

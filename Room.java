@@ -138,7 +138,7 @@ public class Room
      * @param name The name of the Character that should respond
      * @return a String thats includes all reponses from NPCs.
      */
-    public String getResponseFromCharacter(String name) {
+    public String getResponseFromActor(String name) {
         if(npcs.get(name) == null) {
             return "There is no " + name;
         }

@@ -99,10 +99,12 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
-            // if the nextRoom does not have the currentRoom as Exit, the prevRooms get cleared so there is no going back
+            // if the nextRoom does not have the currentRoom as Exit, 
+            // the prevRooms get cleared so there is no going back
             if (!nextRoom.hasExit(player.getCurrentRoom().getId())) {
                 previousRooms.clear();
-                System.out.println("You used a trap door. You can't go back to " + player.getCurrentRoom().getName());
+                System.out.println("You used a trap door. You can't go back to " 
+                                        + player.getCurrentRoom().getName());
             }
             else {
                 previousRooms.push(player.getCurrentRoom());
@@ -146,7 +148,9 @@ public class Game
             return;
         }
         else {
-            System.out.println(player.getCurrentRoom().getResponseFromCharacter(parser.getCommand().getSecondWord()));
+            String name = parser.getCommand().getSecondWord();
+            Room currentRoom = player.getCurrentRoom();
+            System.out.println(currentRoom.getResponseFromActor(name));
         }
     }
 
