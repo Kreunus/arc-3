@@ -1,9 +1,4 @@
-org.eclipse*
-bluej.pkg
 *.class
 *.ctxt
 *.defs
-.project
-.classpath
-/.settings/
 /bin/
