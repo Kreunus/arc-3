@@ -4,5 +4,6 @@ bluej.pkg
 *.ctxt
 *.defs
 .project
+.classpath
 /.settings/
 /bin/
