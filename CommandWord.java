@@ -9,32 +9,25 @@ public enum CommandWord
     //aphabetical order
     LOOK("look"),
     QUIT("quit"),
-    SEARCH("search"),
     TAKE("take"),
     ALICE("alice"),
     ASK("ask"),
     BACK("back"), //by Thu Ky Vu Hoang
-    BAG("bag"),
+    STATS("stats"),
     DROP("drop"),
     EAT("eat"),
     GO("go"),
     HELP("help");
-    
+
     private String commandWord;
-    
-    CommandWord(String commandWord) { 
-        this.commandWord = commandWord; 
-    }
-    
-    /**
-     * @return object of commandWord
+
+    CommandWord(String commandWord) { this.commandWord = commandWord; }
+
+    /** @return object of commandWord
      */
-    public String getCommandWord() {
-        return commandWord;
-    }
-    
-    /**
-     * @return String s that lists all commands.
+    public String getCommandWord() { return commandWord; }
+
+    /** @return String s that lists all commands.
      */
     public static String getCommandWords() {
         String s = "\t";
@@ -43,9 +36,8 @@ public enum CommandWord
         }
         return s;
     }
-    
-    /**
-     * Check whether a given String is a valid command word. 
+
+    /** Check whether a given String is a valid command word. 
      * @return true if a given string is a valid command,
      * false if it isn't.
      */
@@ -57,9 +49,8 @@ public enum CommandWord
         }
         return false;
     }
-    
-    /**
-     * @return returns the CommandWord by String. 
+
+    /** @return returns the CommandWord by String. 
      * Returns null when no CommandWord matches the String
      */
     public static CommandWord fromString(String commandWord) {
@@ -70,5 +61,5 @@ public enum CommandWord
         }
         return null;
     }
-    
+
 }

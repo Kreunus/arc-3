@@ -1,73 +1,90 @@
 import java.util.HashMap;
 /**
- * Write a description of class Inventory here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The Inventory can hold any number of Items
+ * 
+ * @author Aaron Winter
+ * @version 2018.01.30
  */
 public class Inventory
 {
     // instance variables - replace the example below with your own
-    HashMap<String, Slot> slots;
+    private HashMap<String, Slot> slots;
 
-    /**
-     * Constructor for objects of class Inventory
+    /** Constructor for objects of class Inventory
      */
-    public Inventory()
-    {
-        slots = new HashMap<>();
-    }
-
-    public Item item(String id) {
-        return slots.get(id).item();
+    public Inventory() { slots = new HashMap(); }
+    
+    /** @param itemName the name of the item, whose slot should be returned
+     * @return returns the slot which contains the item
+     */
+    public Slot get(String itemName) { return slots.get(itemName); }
+    
+    /** @return returns all slots
+     */
+    public HashMap<String, Slot> slots() { return slots; }
+    
+    /** This method allowes you to pass in a HashMap with slots and add all of them to the Inventory's slots
+     * @param slots the HashMap with slots to be added into the inventory
+     */
+    public void addAll(HashMap<String, Slot> slots) {
+        for (Slot slot : slots.values()) {
+            add(slot);
+        }
     }
     
-    public int number(String id) {
-        return slots.get(id).number();
+    /** Adds a single Slot to the Inventory
+     * @param name the name of the item
+     * @param description the description of the item
+     * @param weight the weight of the item
+     * @param eatable whether the item is eatable or not
+     * @param calories the calories of the item
+     * @param pickable wether the item is pickable or not
+     */
+    public void add(String name, String description, int weight, boolean eatable, int calories, boolean pickable) {
+        add(new Slot(name, description, weight, eatable, calories, pickable));
     }
     
-    public Slot slot(String id) {
-        return slots.get(id);
-    }
-    
-    public void add(int count,String name,String description,int weight,boolean eatable,int calories,boolean pickable) {
-        add(count, new Slot(new Item(name, description, weight, eatable, calories, pickable)));
-    }
-    
+    /** Takes a Slot and adds it to the Inventory. If an item is already in the inventory, it simply increases
+     * the number by one
+     * @param slot the slot to be added
+     */
     public void add(Slot slot) {
-        if(slots.get(slot.item().getName()) != null) {
-            slots.get(slot.item().getName()).add();
-        } else {
+        if (!slots.containsKey(slot.item().getName())) {
             slots.put(slot.item().getName(), slot);
         }
-    }
-    
-    public void add(Item item) {
-        if(slots.get(item.getName()) != null) {
-            slots.get(item.getName()).add();
-        } else {
-            slots.put(item.getName(), new Slot(item));
+        else {
+            int number = slot.number();
+            for (int i = 0; i < number; i++) {
+                slots.get(slot.item().getName()).add();
+            }
         }
     }
     
-    public void add(int count, Slot slot) {
-        for (int i = 0; i < count; i++)
-            add(slot);
-    }
+    /** removes a slot by the name of the item
+     * @param itemName name of the item
+     */
+    public void removeSlot(String itemName) { slots.remove(itemName);  }
     
+    /** Removes an Item by the name of the item. If the number of that item is highter than one, instead it
+     * decreases the number by one
+     * @param itemName the name of the item to be removed
+     */
     public void remove(String itemName) {
-        if(slots.get(itemName).number() > 1) {
+        if (slots.get(itemName).number() > 1) {
             slots.get(itemName).remove();
-        } else {
+        }
+        else {
             slots.remove(itemName);
         }
     }
     
-    public String details() {
-    String s = "Items:";
-        for(Slot slot: slots.values()){
-            s += "\n" + slot.getDetails();
+    /** @return returns the total number of items. Multiples are count as well
+     */
+    public int size() {
+        int size = 0;
+        for (Slot slot : slots.values()) {
+            size += slot.number();
         }
-        return s;
+        return size;
     }
 }
