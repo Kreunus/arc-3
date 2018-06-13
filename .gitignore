@@ -2,3 +2,6 @@ bluej.pkg
 *.class
 *.ctxt
 *.defs
+.project
+/.settings/
+/bin/
